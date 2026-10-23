@@ -39,12 +39,10 @@
         ${lines.map((l) => `<div class="srow"><span>${l.qty} × ${esc(l.p.name)}${l.opt ? ` <span class="opt mono" style="color:var(--cyan);font-size:.78rem">(${esc(l.opt)})</span>` : ''}</span><span>${inr(l.price * l.qty)}</span></div>`).join('')}
         <div class="srow" style="border-top:1px solid var(--line);margin-top:6px"><span>Subtotal</span><span>${inr(sub)}</span></div>
         <div class="srow"><span>Delivery</span><span id="fee">—</span></div>
-        <div class="srow total"><span>Order Total</span><b id="total"></b></div>
-        <div class="srow" style="color:var(--cyan);font-weight:600"><span>40% Advance (after confirmation)</span><b id="adv-total"></b></div>
-        <div class="srow" style="color:var(--muted);font-size:.85rem"><span>Remaining balance on <span id="paywhen-label">pickup</span></span><b id="bal-total"></b></div>
-        <div class="pay-note">💵 <span><b>40% advance payment</b> required after order is confirmed by our team. Balance on <span id="paywhen">pickup</span>.</span></div>
+        <div class="srow total"><span>Total</span><b id="total"></b></div>
+        <div class="pay-note">💵 <span>Pay on <span id="paywhen">pickup</span>. No advance needed. Cash or UPI accepted.</span></div>
         <button class="btn lg block" type="submit" id="submit">Send order</button>
-        <p class="muted" style="font-size:.8rem;margin-top:10px;text-align:center">We will confirm your order and send 40% advance payment details on WhatsApp/call.</p>
+        <p class="muted" style="font-size:.8rem;margin-top:10px;text-align:center">We confirm by call or WhatsApp. Pay when you collect your items.</p>
       </aside></form>`;
     observe(root);
 
@@ -53,15 +51,10 @@
     function refresh() {
       const m = method(), fee = feeFor(m);
       const total = sub + fee;
-      const adv = Math.round(total * 0.4);
-      const bal = total - adv;
       $('#delivbox').classList.toggle('hide', m !== 'delivery'); $('#pickinfo').classList.toggle('hide', m !== 'pickup');
       $('#fee').textContent = m === 'pickup' ? 'Pickup (free)' : fee ? inr(fee) : 'Free';
       $('#total').textContent = inr(total);
-      $('#adv-total').textContent = inr(adv);
-      $('#bal-total').textContent = inr(bal);
       $('#paywhen').textContent = m === 'pickup' ? 'pickup' : 'delivery';
-      $('#paywhen-label').textContent = m === 'pickup' ? 'pickup' : 'delivery';
     }
     root.querySelectorAll('input[name=method]').forEach((r) => r.addEventListener('change', refresh)); refresh();
 

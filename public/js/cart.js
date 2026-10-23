@@ -29,8 +29,6 @@
         <div class="lt">${inr(l.price * l.qty)}</div></div>`;
     }).join('');
     const sub = lines.reduce((s, l) => s + l.price * l.qty, 0);
-    const advance = Math.round(sub * 0.4);
-    const balance = sub - advance;
     const toFree = cfg.freeDeliveryAbove > 0 && cfg.deliveryEnabled && sub < cfg.freeDeliveryAbove ? cfg.freeDeliveryAbove - sub : 0;
     const belowMin = sub < cfg.minOrder;
     root.innerHTML = `<div class="cart-layout"><div class="lines">${rows}
@@ -38,11 +36,9 @@
       <aside class="card summary"><h3>Order summary</h3>
         <div class="srow"><span>Items (${lines.reduce((s, l) => s + l.qty, 0)})</span><span>${inr(sub)}</span></div>
         <div class="srow"><span>Delivery</span><span class="muted">${cfg.deliveryEnabled ? 'Choose at checkout' : 'Pickup only'}</span></div>
-        <div class="srow total"><span>Order Total</span><b>${inr(sub)}</b></div>
-        <div class="srow" style="color:var(--cyan);font-weight:600"><span>40% Advance (after confirmation)</span><b>${inr(advance)}</b></div>
-        <div class="srow" style="color:var(--muted);font-size:.85rem"><span>Balance on pickup/delivery</span><span>${inr(balance)}</span></div>
+        <div class="srow total"><span>Total</span><b>${inr(sub)}</b></div>
         ${toFree ? `<p class="muted" style="font-size:.88rem">Add ${inr(toFree)} more for free delivery.</p>` : ''}
-        <div class="pay-note">💵 <span><b>40% advance payment</b> required after your order is confirmed by our team. Remaining 60% is paid on pickup or delivery.</span></div>
+        <div class="pay-note">💵 <span>Pay on pickup or delivery. No online payment needed. Cash or UPI accepted.</span></div>
         ${belowMin ? `<p class="err-msg">Minimum order is ${inr(cfg.minOrder)}.</p>` : ''}
         <a class="btn lg block ${problem || belowMin ? 'hide' : ''}" href="/checkout">Continue to order form →</a>
         ${problem ? '<p class="err-msg">Fix the highlighted items to continue.</p>' : ''}

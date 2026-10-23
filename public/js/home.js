@@ -70,7 +70,7 @@
 
     // delivery + pickup
     $('#areachips').innerHTML = cfg.deliveryEnabled ? cfg.areas.map((a) => `<span class="chip">${esc(a)}</span>`).join('') : '<span class="muted">Delivery is paused. Pickup is open.</span>';
-    $('#deliv-note').textContent = cfg.deliveryEnabled ? `Flat ${inr(cfg.deliveryFee)} delivery${cfg.freeDeliveryAbove > 0 ? `, free on orders over ${inr(cfg.freeDeliveryAbove)}` : ''}. 40% advance on confirmation, balance on delivery.` : 'Delivery is paused for now.';
+    $('#deliv-note').textContent = cfg.deliveryEnabled ? `Flat ${inr(cfg.deliveryFee)} delivery${cfg.freeDeliveryAbove > 0 ? `, free on orders over ${inr(cfg.freeDeliveryAbove)}` : ''}. Pay on delivery or pickup.` : 'Delivery is paused for now.';
     $('#p-addr').textContent = cfg.pickupAddress; $('#p-hours').textContent = cfg.pickupHours;
     initCustomRequest(cfg);
     observe();

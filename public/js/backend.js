@@ -592,15 +592,4 @@
   window.Backend = isConfigured ? live : demo;
   window.BACKEND_MODE = isConfigured ? 'supabase' : 'demo';
   window.mapProduct = mapProduct;
-
-  if (!isConfigured) {
-    document.addEventListener('DOMContentLoaded', () => {
-      // Friendly banner when previewing without live credentials
-      const b = document.createElement('div');
-      b.id = 'demo-badge';
-      b.innerHTML = 'Preview mode · add Supabase keys in <code>js/supabase-config.js</code> to go live <a href="/admin.html" style="color:#000;font-weight:700;margin-left:6px;text-decoration:underline">Owner login →</a>';
-      b.style.cssText = 'position:fixed;left:12px;bottom:12px;z-index:900;background:#ffc83d;color:#000;font:600 12px/1.3 system-ui,-apple-system,sans-serif;padding:7px 12px;border-radius:8px;box-shadow:0 4px 14px rgba(0,0,0,.4);opacity:.96;transition:opacity .2s';
-      document.body.appendChild(b);
-    });
-  }
 })();

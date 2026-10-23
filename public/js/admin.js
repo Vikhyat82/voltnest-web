@@ -73,14 +73,8 @@
 
   /* ---------------- AUTHENTICATION & ACCESS CONTROL ---------------- */
   async function initAuth() {
-    // Wire up instant demo mode button
-    const demoBtn = $('#demo-mode-btn');
-    if (demoBtn) {
-      demoBtn.addEventListener('click', enterDemoMode);
-    }
-
     if (!isConfigured) {
-      authErr.innerHTML = '⚠️ Setup required: Please open <code>public/js/supabase-config.js</code> and enter your Supabase URL & Anon Key.<br>Or click <b>Enter Demo Mode</b> below to preview immediately.';
+      authErr.innerHTML = '⚠️ Setup required: Please open <code>public/js/supabase-config.js</code> and enter your Supabase URL & Anon Key.';
       return;
     }
 
@@ -833,10 +827,9 @@
           items.map((it) => `• ${it.qty || 1}× ${it.name}`).join('\n') +
           `\n\nWe have checked with our suppliers in Greater Noida. Here is the availability and quote: `;
       } else if (o.status === 'new' || o.status === 'pending') {
-        waText += `We have received your order request for ${items.length} item(s) totaling ${inr(o.total)}. We are confirming stock and will share 40% advance payment details shortly!`;
+        waText += `We have received your order request for ${items.length} item(s) totaling ${inr(o.total)}. We are confirming stock and will let you know once it is packed!`;
       } else if (o.status === 'confirmed') {
-        const advAmt = Math.round(o.total * 0.4);
-        waText += `Your order has been confirmed! Please transfer 40% advance payment (${inr(advAmt)}) so our team can pack and prepare your shipment. Remaining balance is paid on ${isDelivery ? 'delivery' : 'pickup'}.`;
+        waText += `Your order has been confirmed! Our team is packing your items. Total: ${inr(o.total)}, payable on ${isDelivery ? 'delivery' : 'pickup'}.`;
       } else if (o.status === 'ready') {
         waText += isDelivery
           ? `Your shipment is ready and on the way for delivery!`
@@ -872,15 +865,15 @@
             ${o.address ? `<div style="color:var(--admin-subtle);font-size:0.78rem">${esc(o.address)}</div>` : ''}
           </div>
           <div class="order-meta-block">
-            <span>Payment Breakdown</span>
+            <span>Payment</span>
             ${isCustom ? `
               <b style="color:var(--admin-cyan)">Quote on WhatsApp</b>
               <div style="font-size:0.8rem;color:var(--admin-muted)">Out-of-stock / Sourcing parts</div>
               <div style="font-size:0.78rem;color:var(--admin-green)">Payment on delivery</div>
             ` : `
               <b>${inr(o.total)} total</b>
-              <div style="font-size:0.82rem;color:var(--admin-cyan);font-weight:600">40% Advance: ${inr(Math.round(o.total * 0.4))}</div>
-              <div style="font-size:0.78rem;color:var(--admin-muted)">Balance on ${isDelivery ? 'delivery' : 'pickup'}: ${inr(o.total - Math.round(o.total * 0.4))}</div>
+              <div style="font-size:0.82rem;color:var(--admin-cyan);font-weight:600">Pay on ${isDelivery ? 'delivery' : 'pickup'}</div>
+              <div style="font-size:0.78rem;color:var(--admin-muted)">Cash or UPI</div>
             `}
           </div>
         </div>

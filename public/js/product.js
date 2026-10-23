@@ -31,7 +31,7 @@
           <div><b style="color:var(--amber)">Need this out-of-stock part?</b><div style="font-size:0.82rem;color:var(--mute)">Add it to your custom component request and we'll source it!</div></div>
           <a class="btn sm" href="/#custom-request?part=${encodeURIComponent(p.name)}" style="background:var(--amber);color:#06100c">Request this part →</a>
         </div>` : ''}
-        <div class="note">💵 <b>40% advance payment</b> required after your order is confirmed. Remaining 60% paid on pickup or delivery.</div>
+        <div class="note">💵 <b>Pay on pickup or delivery.</b> No online payment needed. Cash or UPI accepted.</div>
         ${p.specs.length ? `<h3 style="margin-top:30px">${p.category === 'kit' ? 'Included Project Deliverables & Components' : 'Specifications'}</h3><table class="specs">${p.specs.map(([k, v]) => v ? `<tr><td>${esc(k)}</td><td>${esc(v)}</td></tr>` : `<tr><td colspan="2">✓ ${esc(k)}</td></tr>`).join('')}</table>` : ''}
       </div></div>`;
     observe(root);
