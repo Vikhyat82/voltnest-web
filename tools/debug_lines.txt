@@ -1,0 +1,12 @@
+﻿          <span class="tab-badge" id="badge-orders">0</span>
+        </button>
+        <button class="admin-tab" data-tab="settings">
+          <span>Store Settings & Delivery</span>
+        </button>
+      </div>
+
+      <!-- TAB 1: PRODUCTS -->
+      <div id="tab-products">
+        <div class="admin-toolbar">
+          <div class="toolbar-search">
+            <input class="admin-input" id="search-products" placeholder="Search by name, category, or SKUâ€¦">

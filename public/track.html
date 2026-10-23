@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Track your order</title>
+<meta name="description" content="Check the status of your order with your order code and phone number.">
+<meta name="theme-color" content="#06100c">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/style.css">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="/js/supabase-config.js"></script>
+<script src="/js/backend.js"></script>
+<script src="/js/icons.js"></script>
+<script src="/js/common.js"></script>
+</head>
+<body data-title="Track order">
+<div id="site-header"></div>
+<main id="main">
+<section class="page-hero"><div class="container" style="position:relative;z-index:2"><span class="kicker">Order status</span><h1>Track your order</h1><p>Enter the order code you received and the phone number you used.</p></div><div class="fl" data-icon="dip" data-speed=".06" data-depth="14" style="--x:80%;--y:8%;--s:100px;--r:12deg;--dur:6.5s"></div><div class="fl" data-icon="capc" data-speed="-.08" data-depth="14" style="--x:92%;--y:50%;--s:70px;--r:-8deg;--dur:5s"></div></section>
+<section class="section" style="padding-top:30px"><div class="container" style="max-width:760px">
+  <form id="trackform" class="card panel" novalidate>
+    <div class="form-grid">
+      <div class="field"><label for="code">Order code</label><input class="input mono" id="code" placeholder="ORD-XXXXX" autocomplete="off" maxlength="12" required></div>
+      <div class="field"><label for="phone">Phone number</label><input class="input" id="phone" type="tel" inputmode="numeric" placeholder="10-digit mobile" maxlength="16" required></div>
+    </div>
+    <div class="err-msg" id="terr" role="alert"></div>
+    <button class="btn" type="submit">Check status</button>
+  </form>
+  <div id="result" style="margin-top:22px"></div>
+</div></section>
+</main>
+<div id="site-footer"></div>
+<script src="/js/track.js"></script>
+</body>
+</html>

@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Shop · Electronic components</title>
+<meta name="description" content="Browse ESP32, Arduino, sensors, displays, resistors, capacitors, ICs and tools.">
+<meta name="theme-color" content="#06100c">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/style.css">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="/js/supabase-config.js"></script>
+<script src="/js/backend.js"></script>
+<script src="/js/icons.js"></script>
+<script src="/js/common.js"></script>
+</head>
+<body data-title="Shop">
+<div id="site-header"></div>
+<main id="main">
+<section class="page-hero"><div class="container" style="position:relative;z-index:2"><span class="kicker">Catalogue</span><h1>Shop components</h1><p>Search by name, value or part number (try “BC547” or “LM358”).</p></div><div class="fl" data-icon="esp" data-speed=".06" data-depth="14" style="--x:80%;--y:10%;--s:110px;--r:10deg;--dur:6s"></div><div class="fl" data-icon="led" data-speed="-.08" data-depth="14" style="--x:68%;--y:45%;--s:70px;--r:-12deg;--dur:5s"></div><div class="fl" data-icon="resistor" data-speed=".1" data-depth="14" style="--x:90%;--y:55%;--s:90px;--r:18deg;--dur:7s"></div></section>
+<section class="section" style="padding-top:28px"><div class="container">
+  <div class="note" style="margin-bottom:20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;background:rgba(55,230,208,0.06);border-color:rgba(55,230,208,0.25);color:var(--ink);padding:14px 18px;border-radius:14px">
+    <div style="display:flex;align-items:center;gap:10px">
+      <span style="font-size:1.3rem">📋</span>
+      <span><b>Looking for components that are out of stock or unlisted?</b> Upload your parts list or project BOM — we will source them for you!</span>
+    </div>
+    <a class="btn sm" href="/#custom-request" style="background:var(--cyan);color:#06100c">Upload your list →</a>
+  </div>
+
+  <div class="toolbar">
+    <label class="search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.500-3.500"/></svg><input id="q" type="search" placeholder="Search parts, e.g. ESP32, 10kΩ, LM358…" aria-label="Search products" autocomplete="off"></label>
+    <select id="sort" class="input" style="width:auto" aria-label="Sort"><option value="feat">Featured</option><option value="plow">Price: low to high</option><option value="phigh">Price: high to low</option><option value="name">Name A–Z</option></select>
+    <label class="toggle"><input type="checkbox" id="instock"> In stock only</label>
+  </div>
+  <div class="cat-bar" id="catbar" role="tablist" aria-label="Categories"></div>
+  <div class="count-line" id="count"></div>
+  <div class="grid" id="grid"><div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div></div>
+  <div class="empty hide" id="empty"><div data-icon="kit"></div><h3>No parts found</h3><p>Upload your component list or project BOM and we will source them directly for you!</p><p style="margin-top:14px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap"><button class="btn ghost" id="clear">Clear filters</button><a class="btn sm" href="/#custom-request" style="background:var(--cyan);color:#06100c">Upload your own project list →</a></p></div>
+</div></section>
+</main>
+<div id="site-footer"></div>
+<script src="/js/shop.js"></script>
+</body>
+</html>

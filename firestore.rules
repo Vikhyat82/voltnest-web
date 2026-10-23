@@ -1,0 +1,14 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isOwner() { return request.auth != null && request.auth.token.admin == true; }
+
+    // The storefront reads these. Only the owner (custom claim admin:true) can change them.
+    match /products/{id} { allow read: if true; allow write: if isOwner(); }
+    match /settings/{id} { allow read: if true; allow write: if isOwner(); }
+
+    // Customers never touch orders directly: they go through the placeOrder / trackOrder functions,
+    // so phone numbers and addresses are not publicly readable and prices cannot be tampered with.
+    match /orders/{id} { allow read, write: if isOwner(); }
+  }
+}

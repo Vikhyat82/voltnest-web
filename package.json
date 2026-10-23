@@ -1,0 +1,9 @@
+{
+  "name": "voltnest-web",
+  "version": "1.0.0",
+  "description": "VoltNest student electronics storefront and owner control room",
+  "scripts": {
+    "start": "node tools/serve.cjs",
+    "dev": "node tools/serve.cjs"
+  }
+}

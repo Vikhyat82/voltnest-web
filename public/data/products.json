@@ -1,0 +1,1611 @@
+[
+ {
+  "id": "esp32-devkit",
+  "name": "ESP32 DevKit V1 (30-pin)",
+  "category": "boards",
+  "price": 549,
+  "mrp": 699,
+  "stock": 25,
+  "description": "The go-to board for IoT projects: dual-core processor with built-in Wi-Fi and Bluetooth. Works with the Arduino IDE, MicroPython and ESP-IDF.",
+  "specs": [
+   {
+    "k": "Processor",
+    "v": "Dual-core Xtensa LX6, up to 240 MHz"
+   },
+   {
+    "k": "Wireless",
+    "v": "Wi-Fi 802.11 b/g/n + Bluetooth/BLE"
+   },
+   {
+    "k": "Memory",
+    "v": "520 KB SRAM, 4 MB flash"
+   },
+   {
+    "k": "Logic level",
+    "v": "3.3 V"
+   },
+   {
+    "k": "USB",
+    "v": "Micro-USB (CP2102 / CH340)"
+   }
+  ],
+  "options": [],
+  "icon": "esp",
+  "image_url": "",
+  "featured": true,
+  "active": true,
+  "sort": 0
+ },
+ {
+  "id": "esp8266-nodemcu",
+  "name": "ESP8266 NodeMCU",
+  "category": "boards",
+  "price": 329,
+  "mrp": 399,
+  "stock": 30,
+  "description": "Low-cost Wi-Fi board that is perfect for first IoT projects: web servers, MQTT, sensor dashboards and home automation.",
+  "specs": [
+   {
+    "k": "Processor",
+    "v": "Tensilica L106, 80/160 MHz"
+   },
+   {
+    "k": "Wireless",
+    "v": "Wi-Fi 802.11 b/g/n"
+   },
+   {
+    "k": "Flash",
+    "v": "4 MB"
+   },
+   {
+    "k": "Logic level",
+    "v": "3.3 V"
+   },
+   {
+    "k": "Analog input",
+    "v": "1 channel (0–1 V on chip, 3.3 V on board)"
+   }
+  ],
+  "options": [],
+  "icon": "esp",
+  "image_url": "",
+  "featured": false,
+  "active": true,
+  "sort": 1
+ },
+ {
+  "id": "esp32-c3-supermini",
+  "name": "ESP32-C3 SuperMini",
+  "category": "boards",
+  "price": 299,
+  "mrp": 369,
+  "stock": 20,
+  "description": "Thumb-sized ESP32 with native USB-C, Wi-Fi and Bluetooth 5 (LE). Ideal for wearables, small sensor nodes and battery projects.",
+  "specs": [
+   {
+    "k": "Processor",
+    "v": "RISC-V single core, 160 MHz"
+   },
+   {
+    "k": "Wireless",
+    "v": "Wi-Fi 4 + Bluetooth 5 (LE)"
+   },
+   {
+    "k": "Flash",
+    "v": "4 MB"
+   },
+   {
+    "k": "Size",
+    "v": "approx. 22.5 × 18 mm"
+   },
+   {
+    "k": "USB",
+    "v": "USB-C (native)"
+   }
+  ],
+  "options": [],
+  "icon": "mini",
+  "image_url": "",
+  "featured": true,
+  "active": true,
+  "sort": 2
+ },
+ {
+  "id": "arduino-uno-r3",
+  "name": "Arduino Uno R3 (with USB cable)",
+  "category": "boards",
+  "price": 449,
+  "mrp": 549,
+  "stock": 20,
+  "description": "The classic learning board. 5 V logic, huge community and thousands of tutorials. Comes with a USB cable.",
+  "specs": [
+   {
+    "k": "Microcontroller",
+    "v": "ATmega328P, 16 MHz"
+   },
+   {
+    "k": "Digital I/O",
+    "v": "14 pins (6 PWM)"
+   },
+   {
+    "k": "Analog inputs",
+    "v": "6"
+   },
+   {
+    "k": "Logic level",
+    "v": "5 V"
+   },
+   {
+    "k": "Input voltage",
+    "v": "7–12 V (barrel jack)"
+   }
+  ],
+  "options": [],
+  "icon": "uno",
+  "image_url": "",
+  "featured": true,
+  "active": true,
+  "sort": 3
+ },
+ {
+  "id": "breadboard-830",
+  "name": "Breadboard 830 Tie-Points",
+  "category": "prototyping",
+  "price": 89,
+  "mrp": 120,
+  "stock": 40,
+  "description": "Full-size solderless breadboard with power rails. Build and change circuits without soldering.",
+  "specs": [
+   {
+    "k": "Tie points",
+    "v": "830"
+   },
+   {
+    "k": "Size",
+    "v": "approx. 165 × 55 mm"
+   },
+   {
+    "k": "Rails",
+    "v": "4 power rails"
+   }
+  ],
+  "options": [],
+  "icon": "breadboard",
+  "image_url": "",
+  "featured": false,
+  "active": true,
+  "sort": 4
+ },
+ {
+  "id": "jumper-mm-40",
+  "name": "Jumper Wires Male–Male (40 pcs)",
+  "category": "prototyping",
+  "price": 59,
+  "mrp": null,
+  "stock": 60,
+  "description": "20 cm colour-coded ribbon of male–male jumper wires for breadboard connections.",
+  "specs": [
+   {
+    "k": "Quantity",
+    "v": "40 pcs"
+   },
+   {
+    "k": "Length",
+    "v": "20 cm"
+   },
+   {
+    "k": "Ends",
+    "v": "Male – Male"
+   }
+  ],
+  "options": [],
+  "icon": "wires",
+  "image_url": "",
+  "featured": false,
+  "active": true,
+  "sort": 5
+ },
+ {
+  "id": "jumper-mf-40",
+  "name": "Jumper Wires Male–Female (40 pcs)",
+  "category": "prototyping",
+  "price": 59,
+  "mrp": null,
+  "stock": 60,
+  "description": "Connect sensor modules and boards with header pins to a breadboard.",
+  "specs": [
+   {
+    "k": "Quantity",
+    "v": "40 pcs"
+   },
+   {
+    "k": "Length",
+    "v": "20 cm"
+   },
+   {
+    "k": "Ends",
+    "v": "Male – Female"
+   }
+  ],
+  "options": [],
+  "icon": "wires",
+  "image_url": "",
+  "featured": false,
+  "active": true,
+  "sort": 6
+ },
+ {
+  "id": "jumper-ff-40",
+  "name": "Jumper Wires Female–Female (40 pcs)",
+  "category": "prototyping",
+  "price": 59,
+  "mrp": null,
+  "stock": 50,
+  "description": "Connect two header-pin modules directly, with no breadboard needed.",
+  "specs": [
+   {
+    "k": "Quantity",
+    "v": "40 pcs"
+   },
+   {
+    "k": "Length",
+    "v": "20 cm"
+   },
+   {
+    "k": "Ends",
+    "v": "Female – Female"
+   }
+  ],
+  "options": [],
+  "icon": "wires",
+  "image_url": "",
+  "featured": false,
+  "active": true,
+  "sort": 7
+ },
+ {
+  "id": "thin-hookup-wire",
+  "name": "Thin Connecting Wire (multi-colour set)",
+  "category": "prototyping",
+  "price": 99,
+  "mrp": null,
+  "stock": 35,
+  "description": "Thin, flexible single-core wire in assorted colours for soldering on perfboard, wiring small gadgets and tight spaces.",
+  "specs": [
+   {
+    "k": "Type",
+    "v": "Thin hook-up wire (approx. 30 AWG)"
+   },
+   {
+    "k": "Colours",
+    "v": "Assorted"
+   },
+   {
+    "k": "Use",
+    "v": "Soldering, point-to-point wiring"
+   }
+  ],
+  "options": [],
+  "icon": "wires",
+  "image_url": "",
+  "featured": false,
+  "active": true,
+  "sort": 8
+ },
+ {
+  "id": "perfboard-7x9",
+  "name": "Prototype Board (Perfboard) 7 × 9 cm",
+  "category": "prototyping",
+  "price": 49,
+  "mrp": null,
+  "stock": 50,
+  "description": "Double-sided plated-through-hole prototype board. Solder your tested breadboard circuit into a permanent project.",
+  "specs": [
+   {
+    "k": "Size",
+    "v": "7 × 9 cm"
+   },
+   {
+    "k": "Pitch",
+    "v": "2.54 mm"
+   },
+   {
+    "k": "Sides",
+    "v": "Double-sided, plated holes"
+   }
+  ],
+  "options": [],
+  "icon": "perf",
+  "image_url": "",
+  "featured": false,
+  "active": true,
+  "sort": 9
+ },
+ {
+  "id": "turbidity-sensor",
+  "name": "Turbidity Sensor with Module",
+  "category": "sensors",
+  "price": 449,
+  "mrp": 549,
+  "stock": 12,
+  "description": "Measures how cloudy water is by detecting light scattering. Comes with the signal-conditioning module, so you can read it on an Arduino or ESP32. A favourite for water-quality projects.",
+  "specs": [
+   {
+    "k": "Output",
+    "v": "Analog + digital (adjustable threshold)"
+   },
+   {
+    "k": "Supply",
+    "v": "5 V"
+   },
+   {
+    "k": "Use",
+    "v": "Water quality monitoring, washing-machine and dishwasher style detection"
+   }
+  ],
+  "options": [],
+  "icon": "turbidity",
+  "image_url": "",
+  "featured": false,
+  "active": true,
+  "sort": 10
+ },
+ {
+  "id": "tds-sensor",
+  "name": "Analog TDS Sensor Module with Probe",
+  "category": "sensors",
+  "price": 499,
+  "mrp": 599,
+  "stock": 12,
+  "description": "Estimates total dissolved solids (water purity) in ppm. Pair it with a DS18B20 for temperature compensation.",
+  "specs": [
+   {
+    "k": "Output",
+    "v": "Analog voltage"
+   },
+   {
+    "k": "Supply",
+    "v": "3.3–5.5 V"
+   },
+   {
+    "k": "Range",
+    "v": "0–1000 ppm"
+   },
+   {
+    "k": "Use",
+    "v": "Water purity / RO monitoring"
+   }
+  ],
+  "options": [],
+  "icon": "turbidity",
+  "image_url": "",
+  "featured": true,
+  "active": true,
+  "sort": 11
+ },
+ {
+  "id": "ds18b20-probe",
+  "name": "DS18B20 Waterproof Temperature Probe",
+  "category": "sensors",
+  "price": 99,
+  "mrp": 129,
+  "stock": 40,
+  "description": "Digital 1-Wire temperature sensor sealed in a stainless-steel probe on a 1 m cable. Needs only one data pin and a 4.7 kΩ pull-up.",
+  "specs": [
+   {
+    "k": "Range",
+    "v": "–55 to +125 °C"
+   },
+   {
+    "k": "Accuracy",
+    "v": "±0.5 °C (–10 to +85 °C)"
+   },
+   {
+    "k": "Interface",
+    "v": "1-Wire digital"
+   },
+   {
+    "k": "Cable",
+    "v": "approx. 1 m"
+   }
+  ],
+  "options": [],
+  "icon": "probe",
+  "image_url": "",
+  "featured": false,
+  "active": true,
+  "sort": 12
+ },
+ {
+  "id": "ad8232-ecg",
+  "name": "AD8232 ECG Sensor Module (with leads)",
+  "category": "sensors",
+  "price": 449,
+  "mrp": 549,
+  "stock": 10,
+  "description": "Single-lead heart-rate / ECG front end. Plot your own heartbeat on a serial plotter or OLED. For learning and hobby projects only — not a medical device.",
+  "specs": [
+   {
+    "k": "Chip",
+    "v": "AD8232"
+   },
+   {
+    "k": "Supply",
+    "v": "3.3 V"
+   },
+   {
+    "k": "Output",
+    "v": "Analog"
+   },
+   {
+    "k": "Includes",
+    "v": "Pads / lead cable"
+   }
+  ],
+  "options": [],
+  "icon": "ecg",
+  "image_url": "",
+  "featured": false,
+  "active": true,
+  "sort": 13
+ },
+ {
+  "id": "accelerometer-module",
+  "name": "Accelerometer Sensor Module (3-axis)",
+  "category": "sensors",
+  "price": 199,
+  "mrp": 249,
+  "stock": 20,
+  "description": "Measures acceleration for tilt, motion, vibration and free-fall detection. Great for gesture controllers and self-balancing projects.",
+  "specs": [
+   {
+    "k": "Axes",
+    "v": "3-axis"
+   },
+   {
+    "k": "Supply",
+    "v": "3.3–5 V"
+   },
+   {
+    "k": "Use",
+    "v": "Tilt, motion, vibration"
+   }
+  ],
+  "options": [],
+  "icon": "accel",
+  "image_url": "",
+  "featured": false,
+  "active": true,
+  "sort": 14
+ },
+ {
+  "id": "dht11",
+  "name": "DHT11 Temperature & Humidity Sensor",
+  "category": "sensors",
+  "price": 89,
+  "mrp": 120,
+  "stock": 40,
+  "description": "The easiest way to read temperature and humidity. Single-wire digital output with ready libraries for Arduino and ESP boards.",
+  "specs": [
+   {
+    "k": "Temperature",
+    "v": "0–50 °C, ±2 °C"
+   },
+   {
+    "k": "Humidity",
+    "v": "20–80 % RH, ±5 %"
+   },
+   {
+    "k": "Supply",
+    "v": "3.3–5.5 V"
+   },
+   {
+    "k": "Interface",
+    "v": "Single-wire digital"
+   }
+  ],
+  "options": [],
+  "icon": "dht",
+  "image_url": "",
+  "featured": true,
+  "active": true,
+  "sort": 15
+ },
+ {
+  "id": "gl12-ldr",
+  "name": "GL12 Light Sensor (LDR)",
+  "category": "sensors",
+  "price": 15,
+  "mrp": null,
+  "stock": 60,
+  "description": "Light-dependent resistor: its resistance drops as light increases. Use it in a voltage divider for automatic night lights, light meters and solar trackers.",
+  "specs": [
+   {
+    "k": "Type",
+    "v": "Photoresistor (LDR)"
+   },
+   {
+    "k": "Use",
+    "v": "Light sensing with an analog pin"
+   },
+   {
+    "k": "Tip",
+    "v": "Pair with a 10 kΩ resistor"
+   }
+  ],
+  "options": [],
+  "icon": "ldr",
+  "image_url": "",
+  "featured": false,
+  "active": true,
+  "sort": 16
+ },
+ {
+  "id": "mini-pir-motion",
+  "name": "Miniature Motion Sensor (Mini PIR)",
+  "category": "sensors",
+  "price": 89,
+  "mrp": 110,
+  "stock": 20,
+  "description": "Tiny passive-infrared motion sensor with a digital output. Perfect for compact motion alarms and auto-lights.",
+  "specs": [
+   {
+    "k": "Type",
+    "v": "Mini PIR (HC-SR505 style)"
+   },
+   {
+    "k": "Supply",
+    "v": "4.5–20 V"
+   },
+   {
+    "k": "Output",
+    "v": "Digital HIGH on motion"
+   },
+   {
+    "k": "Range",
+    "v": "approx. 3 m"
+   }
+  ],
+  "options": [],
+  "icon": "pir",
+  "image_url": "",
+  "featured": false,
+  "active": true,
+  "sort": 17
+ },
+ {
+  "id": "lm135-sensor",
+  "name": "LM135 Precision Temperature Sensor",
+  "category": "sensors",
+  "price": 299,
+  "mrp": 349,
+  "stock": 10,
+  "description": "Precision analog temperature sensor that behaves like a zener diode with +10 mV per kelvin. Needs a series resistor and (optionally) a calibration pot.",
+  "specs": [
+   {
+    "k": "Output",
+    "v": "10 mV / K"
+   },
+   {
+    "k": "Range",
+    "v": "–55 to +150 °C"
+   },
+   {
+    "k": "Type",
+    "v": "Analog, 2-terminal + adjust"
+   }
+  ],
+  "options": [],
+  "icon": "to92",
+  "image_url": "",
+  "featured": false,
+  "active": true,
+  "sort": 18
+ },
+ {
+  "id": "oled-096",
+  "name": "0.96\" OLED Display 128×64 (I2C)",
+  "category": "displays",
+  "price": 229,
+  "mrp": 299,
+  "stock": 25,
+  "description": "Sharp, high-contrast display that needs just 4 wires. Show sensor readings, graphs and icons. Works with Adafruit SSD1306 / U8g2 libraries.",
+  "specs": [
+   {
+    "k": "Resolution",
+    "v": "128 × 64"
+   },
+   {
+    "k": "Driver",
+    "v": "SSD1306"
+   },
+   {
+    "k": "Interface",
+    "v": "I2C (4 pins)"
+   },
+   {
+    "k": "Supply",
+    "v": "3.3–5 V"
+   }
+  ],
+  "options": [],
+  "icon": "oled",
+  "image_url": "",
+  "featured": true,
+  "active": true,
+  "sort": 19
+ },
+ {
+  "id": "lcd-16x2",
+  "name": "LCD Display 16×2 (HD44780)",
+  "category": "displays",
+  "price": 149,
+  "mrp": 189,
+  "stock": 25,
+  "description": "Classic character display with backlight. Use the LiquidCrystal library on Arduino. Needs a 10 kΩ pot for contrast.",
+  "specs": [
+   {
+    "k": "Characters",
+    "v": "16 × 2"
+   },
+   {
+    "k": "Controller",
+    "v": "HD44780 compatible"
+   },
+   {
+    "k": "Supply",
+    "v": "5 V"
+   },
+   {
+    "k": "Interface",
+    "v": "Parallel (4/8-bit)"
+   }
+  ],
+  "options": [],
+  "icon": "lcd",
+  "image_url": "",
+  "featured": false,
+  "active": true,
+  "sort": 20
+ },
+ {
+  "id": "ne555-timer",
+  "name": "NE555 Timer IC (DIP-8)",
+  "category": "components",
+  "price": 15,
+  "mrp": null,
+  "stock": 100,
+  "description": "The legendary timer chip: astable and monostable circuits, PWM, delays, tone generators.",
+  "specs": [
+   {
+    "k": "Package",
+    "v": "DIP-8"
+   },
+   {
+    "k": "Supply",
+    "v": "4.5–16 V"
+   },
+   {
+    "k": "Output current",
+    "v": "up to 200 mA"
+   }
+  ],
+  "options": [],
+  "icon": "ic555",
+  "image_url": "",
+  "featured": false,
+  "active": true,
+  "sort": 21
+ },
+ {
+  "id": "push-button-mini",
+  "name": "Miniature Push Button (tactile, pack of 10)",
+  "category": "components",
+  "price": 20,
+  "mrp": null,
+  "stock": 120,
+  "description": "6 × 6 mm tactile switches that fit straight into a breadboard. Pack of 10.",
+  "specs": [
+   {
+    "k": "Size",
+    "v": "6 × 6 mm"
+   },
+   {
+    "k": "Pins",
+    "v": "4-pin"
+   },
+   {
+    "k": "Pack",
+    "v": "10 pcs"
+   }
+  ],
+  "options": [],
+  "icon": "button",
+  "image_url": "",
+  "featured": false,
+  "active": true,
+  "sort": 22
+ },
+ {
+  "id": "resistor-14w",
+  "name": "Carbon Film Resistor ¼ W (pack of 10)",
+  "category": "components",
+  "price": 10,
+  "mrp": null,
+  "stock": 400,
+  "description": "Pick the value you need. Each pack has 10 resistors, 5 % tolerance. If you need a value that is not listed, mention it in the order notes.",
+  "specs": [
+   {
+    "k": "Power",
+    "v": "¼ W"
+   },
+   {
+    "k": "Tolerance",
+    "v": "5 %"
+   },
+   {
+    "k": "Pack",
+    "v": "10 pcs"
+   }
+  ],
+  "options": [
+   {
+    "label": "10Ω",
+    "price": null
+   },
+   {
+    "label": "22Ω",
+    "price": null
+   },
+   {
+    "label": "47Ω",
+    "price": null
+   },
+   {
+    "label": "100Ω",
+    "price": null
+   },
+   {
+    "label": "150Ω",
+    "price": null
+   },
+   {
+    "label": "220Ω",
+    "price": null
+   },
+   {
+    "label": "330Ω",
+    "price": null
+   },
+   {
+    "label": "470Ω",
+    "price": null
+   },
+   {
+    "label": "680Ω",
+    "price": null
+   },
+   {
+    "label": "1kΩ",
+    "price": null
+   },
+   {
+    "label": "2.2kΩ",
+    "price": null
+   },
+   {
+    "label": "3.3kΩ",
+    "price": null
+   },
+   {
+    "label": "4.7kΩ",
+    "price": null
+   },
+   {
+    "label": "10kΩ",
+    "price": null
+   },
+   {
+    "label": "22kΩ",
+    "price": null
+   },
+   {
+    "label": "47kΩ",
+    "price": null
+   },
+   {
+    "label": "100kΩ",
+    "price": null
+   },
+   {
+    "label": "220kΩ",
+    "price": null
+   },
+   {
+    "label": "470kΩ",
+    "price": null
+   },
+   {
+    "label": "1MΩ",
+    "price": null
+   }
+  ],
+  "icon": "resistor",
+  "image_url": "",
+  "featured": false,
+  "active": true,
+  "sort": 23
+ },
+ {
+  "id": "resistor-kit-600",
+  "name": "Resistor Assortment Kit (600 pcs, 30 values)",
+  "category": "components",
+  "price": 199,
+  "mrp": 260,
+  "stock": 20,
+  "description": "30 common values × 20 pieces of ¼ W resistors in an organiser. The easiest way to never run out.",
+  "specs": [
+   {
+    "k": "Quantity",
+    "v": "600 pcs"
+   },
+   {
+    "k": "Values",
+    "v": "30 common E12 values"
+   },
+   {
+    "k": "Power",
+    "v": "¼ W"
+   }
+  ],
+  "options": [],
+  "icon": "kit",
+  "image_url": "",
+  "featured": false,
+  "active": true,
+  "sort": 24
+ },
+ {
+  "id": "potentiometer",
+  "name": "Potentiometer / Trimpot",
+  "category": "components",
+  "price": 25,
+  "mrp": null,
+  "stock": 80,
+  "description": "Rotary potentiometers and small preset trimpots for volume, contrast and calibration.",
+  "specs": [
+   {
+    "k": "Type",
+    "v": "Linear (B-type)"
+   },
+   {
+    "k": "Mount",
+    "v": "Breadboard-friendly legs"
+   }
+  ],
+  "options": [
+   {
+    "label": "1kΩ rotary",
+    "price": null
+   },
+   {
+    "label": "5kΩ rotary",
+    "price": null
+   },
+   {
+    "label": "10kΩ rotary",
+    "price": null
+   },
+   {
+    "label": "50kΩ rotary",
+    "price": null
+   },
+   {
+    "label": "100kΩ rotary",
+    "price": null
+   },
+   {
+    "label": "10kΩ preset trimpot",
+    "price": 15
+   }
+  ],
+  "icon": "resistor",
+  "image_url": "",
+  "featured": false,
+  "active": true,
+  "sort": 25
+ },
+ {
+  "id": "ceramic-capacitor",
+  "name": "Ceramic Capacitor (pack of 10)",
+  "category": "components",
+  "price": 15,
+  "mrp": null,
+  "stock": 300,
+  "description": "Disc ceramic capacitors for decoupling, filtering and timing. Choose a value. Pack of 10.",
+  "specs": [
+   {
+    "k": "Voltage",
+    "v": "50 V"
+   },
+   {
+    "k": "Pack",
+    "v": "10 pcs"
+   }
+  ],
+  "options": [
+   {
+    "label": "22pF",
+    "price": null
+   },
+   {
+    "label": "100pF",
+    "price": null
+   },
+   {
+    "label": "1nF (102)",
+    "price": null
+   },
+   {
+    "label": "10nF (103)",
+    "price": null
+   },
+   {
+    "label": "100nF (104)",
+    "price": null
+   },
+   {
+    "label": "1µF",
+    "price": null
+   }
+  ],
+  "icon": "capc",
+  "image_url": "",
+  "featured": false,
+  "active": true,
+  "sort": 26
+ },
+ {
+  "id": "electrolytic-capacitor",
+  "name": "Electrolytic Capacitor (pack of 5)",
+  "category": "components",
+  "price": 25,
+  "mrp": null,
+  "stock": 200,
+  "description": "Polarised capacitors for power supply smoothing and audio coupling. Pack of 5.",
+  "specs": [
+   {
+    "k": "Type",
+    "v": "Radial electrolytic"
+   },
+   {
+    "k": "Pack",
+    "v": "5 pcs"
+   }
+  ],
+  "options": [
+   {
+    "label": "1µF 50V",
+    "price": null
+   },
+   {
+    "label": "10µF 25V",
+    "price": null
+   },
+   {
+    "label": "47µF 25V",
+    "price": null
+   },
+   {
+    "label": "100µF 25V",
+    "price": null
+   },
+   {
+    "label": "220µF 25V",
+    "price": null
+   },
+   {
+    "label": "470µF 25V",
+    "price": null
+   },
+   {
+    "label": "1000µF 16V",
+    "price": null
+   },
+   {
+    "label": "2200µF 25V",
+    "price": 35
+   }
+  ],
+  "icon": "cape",
+  "image_url": "",
+  "featured": false,
+  "active": true,
+  "sort": 27
+ },
+ {
+  "id": "capacitor-kit",
+  "name": "Capacitor Assortment Kit (ceramic + electrolytic)",
+  "category": "components",
+  "price": 249,
+  "mrp": 320,
+  "stock": 15,
+  "description": "A box of the most-used ceramic and electrolytic capacitor values for projects and labs.",
+  "specs": [
+   {
+    "k": "Contents",
+    "v": "Ceramic + electrolytic assortment"
+   },
+   {
+    "k": "Use",
+    "v": "Labs and projects"
+   }
+  ],
+  "options": [],
+  "icon": "kit",
+  "image_url": "",
+  "featured": false,
+  "active": true,
+  "sort": 28
+ },
+ {
+  "id": "bjt-transistor",
+  "name": "Small-Signal Transistor (pack of 5)",
+  "category": "components",
+  "price": 15,
+  "mrp": null,
+  "stock": 200,
+  "description": "General-purpose BJTs for switching and amplifying. Pick the part number. Pack of 5.",
+  "specs": [
+   {
+    "k": "Package",
+    "v": "TO-92"
+   },
+   {
+    "k": "Pack",
+    "v": "5 pcs"
+   }
+  ],
+  "options": [
+   {
+    "label": "BC547 (NPN)",
+    "price": null
+   },
+   {
+    "label": "BC548 (NPN)",
+    "price": null
+   },
+   {
+    "label": "BC557 (PNP)",
+    "price": null
+   },
+   {
+    "label": "2N2222 (NPN)",
+    "price": 20
+   },
+   {
+    "label": "2N3904 (NPN)",
+    "price": 20
+   },
+   {
+    "label": "2N3906 (PNP)",
+    "price": 20
+   }
+  ],
+  "icon": "to92",
+  "image_url": "",
+  "featured": false,
+  "active": true,
+  "sort": 29
+ },
+ {
+  "id": "power-transistor-mosfet",
+  "name": "Power Transistor / MOSFET (each)",
+  "category": "components",
+  "price": 25,
+  "mrp": null,
+  "stock": 100,
+  "description": "For motors, relays, LED strips and power supplies. Price is per piece.",
+  "specs": [
+   {
+    "k": "Sold",
+    "v": "Per piece"
+   }
+  ],
+  "options": [
+   {
+    "label": "TIP31C (NPN)",
+    "price": null
+   },
+   {
+    "label": "TIP32C (PNP)",
+    "price": null
+   },
+   {
+    "label": "TIP122 (Darlington NPN)",
+    "price": 35
+   },
+   {
+    "label": "TIP127 (Darlington PNP)",
+    "price": 35
+   },
+   {
+    "label": "2N3055",
+    "price": 79
+   },
+   {
+    "label": "IRF540N MOSFET",
+    "price": 59
+   },
+   {
+    "label": "IRFZ44N MOSFET",
+    "price": 59
+   },
+   {
+    "label": "IRF9540 P-MOSFET",
+    "price": 69
+   },
+   {
+    "label": "2N7000 MOSFET",
+    "price": 15
+   }
+  ],
+  "icon": "to92",
+  "image_url": "",
+  "featured": false,
+  "active": true,
+  "sort": 30
+ },
+ {
+  "id": "linear-ic",
+  "name": "Op-Amp, Regulator & Linear IC (each)",
+  "category": "components",
+  "price": 25,
+  "mrp": null,
+  "stock": 150,
+  "description": "Op-amps, comparators and voltage regulators. Price is per piece.",
+  "specs": [
+   {
+    "k": "Sold",
+    "v": "Per piece"
+   }
+  ],
+  "options": [
+   {
+    "label": "LM358 dual op-amp",
+    "price": null
+   },
+   {
+    "label": "LM324 quad op-amp",
+    "price": null
+   },
+   {
+    "label": "LM741 op-amp",
+    "price": 15
+   },
+   {
+    "label": "LM339 comparator",
+    "price": null
+   },
+   {
+    "label": "LM393 comparator",
+    "price": 20
+   },
+   {
+    "label": "LM386 audio amp",
+    "price": 45
+   },
+   {
+    "label": "TL071 op-amp",
+    "price": 35
+   },
+   {
+    "label": "LM317 adjustable regulator",
+    "price": null
+   },
+   {
+    "label": "LM7805 (5 V)",
+    "price": 15
+   },
+   {
+    "label": "LM7812 (12 V)",
+    "price": 15
+   },
+   {
+    "label": "LM7905 (–5 V)",
+    "price": 20
+   },
+   {
+    "label": "AMS1117-3.3",
+    "price": 20
+   },
+   {
+    "label": "LM35 temperature sensor",
+    "price": 59
+   }
+  ],
+  "icon": "dip",
+  "image_url": "",
+  "featured": false,
+  "active": true,
+  "sort": 31
+ },
+ {
+  "id": "logic-ic",
+  "name": "Digital Logic IC 74xx / CD4xxx (each)",
+  "category": "components",
+  "price": 20,
+  "mrp": null,
+  "stock": 150,
+  "description": "Gates, flip-flops, counters, decoders and shift registers. Price is per piece. Ask us if you need a part that is not listed.",
+  "specs": [
+   {
+    "k": "Sold",
+    "v": "Per piece"
+   }
+  ],
+  "options": [
+   {
+    "label": "74HC00 NAND",
+    "price": null
+   },
+   {
+    "label": "74HC04 NOT",
+    "price": null
+   },
+   {
+    "label": "74HC08 AND",
+    "price": null
+   },
+   {
+    "label": "74HC32 OR",
+    "price": null
+   },
+   {
+    "label": "74HC74 D flip-flop",
+    "price": 25
+   },
+   {
+    "label": "74HC138 decoder",
+    "price": 30
+   },
+   {
+    "label": "74HC245 buffer",
+    "price": 35
+   },
+   {
+    "label": "74HC595 shift register",
+    "price": 35
+   },
+   {
+    "label": "CD4017 counter",
+    "price": 30
+   },
+   {
+    "label": "CD4511 BCD-7seg",
+    "price": 35
+   },
+   {
+    "label": "CD4060 counter/oscillator",
+    "price": 40
+   },
+   {
+    "label": "CD4093 Schmitt NAND",
+    "price": 25
+   },
+   {
+    "label": "74LS47 BCD-7seg",
+    "price": 35
+   }
+  ],
+  "icon": "dip",
+  "image_url": "",
+  "featured": false,
+  "active": true,
+  "sort": 32
+ },
+ {
+  "id": "driver-ic",
+  "name": "Driver, Interface & Converter IC (each)",
+  "category": "components",
+  "price": 25,
+  "mrp": null,
+  "stock": 80,
+  "description": "Motor drivers, level shifters, I/O expanders and data converters. Price is per piece.",
+  "specs": [
+   {
+    "k": "Sold",
+    "v": "Per piece"
+   }
+  ],
+  "options": [
+   {
+    "label": "L293D motor driver",
+    "price": 65
+   },
+   {
+    "label": "L298N IC",
+    "price": 179
+   },
+   {
+    "label": "ULN2003A",
+    "price": null
+   },
+   {
+    "label": "MAX232",
+    "price": 69
+   },
+   {
+    "label": "PCF8574 I/O expander",
+    "price": 79
+   },
+   {
+    "label": "CD4051 analog mux",
+    "price": 35
+   },
+   {
+    "label": "ADC0804",
+    "price": 149
+   },
+   {
+    "label": "DAC0808",
+    "price": 129
+   },
+   {
+    "label": "LM3914 bar driver",
+    "price": 99
+   }
+  ],
+  "icon": "dip",
+  "image_url": "",
+  "featured": false,
+  "active": true,
+  "sort": 33
+ },
+ {
+  "id": "led-5mm",
+  "name": "5 mm LED (pack of 10)",
+  "category": "components",
+  "price": 20,
+  "mrp": null,
+  "stock": 300,
+  "description": "Standard 5 mm diffused LEDs. Choose a colour. Remember a 220 Ω resistor!",
+  "specs": [
+   {
+    "k": "Size",
+    "v": "5 mm"
+   },
+   {
+    "k": "Pack",
+    "v": "10 pcs"
+   }
+  ],
+  "options": [
+   {
+    "label": "Red",
+    "price": null
+   },
+   {
+    "label": "Green",
+    "price": null
+   },
+   {
+    "label": "Yellow",
+    "price": null
+   },
+   {
+    "label": "Orange",
+    "price": null
+   },
+   {
+    "label": "Blue",
+    "price": 30
+   },
+   {
+    "label": "White",
+    "price": 30
+   }
+  ],
+  "icon": "led",
+  "image_url": "",
+  "featured": false,
+  "active": true,
+  "sort": 34
+ },
+ {
+  "id": "led-kit-100",
+  "name": "LED Assortment Kit (100 pcs, 3 mm + 5 mm)",
+  "category": "components",
+  "price": 99,
+  "mrp": 140,
+  "stock": 30,
+  "description": "100 LEDs in 5 colours and 2 sizes. Enough for every lab and project.",
+  "specs": [
+   {
+    "k": "Quantity",
+    "v": "100 pcs"
+   },
+   {
+    "k": "Sizes",
+    "v": "3 mm and 5 mm"
+   }
+  ],
+  "options": [],
+  "icon": "led",
+  "image_url": "",
+  "featured": false,
+  "active": true,
+  "sort": 35
+ },
+ {
+  "id": "lipo-small",
+  "name": "Small LiPo Battery 3.7 V",
+  "category": "power",
+  "price": 149,
+  "mrp": null,
+  "stock": 20,
+  "description": "Rechargeable lithium-polymer cells for ESP32 and wearable projects. Use a proper LiPo charger module (TP4056 with protection). Choose a capacity.",
+  "specs": [
+   {
+    "k": "Voltage",
+    "v": "3.7 V nominal (4.2 V full)"
+   },
+   {
+    "k": "Warning",
+    "v": "Never short or puncture. Use a protected charger."
+   }
+  ],
+  "options": [
+   {
+    "label": "3.7V 150mAh",
+    "price": null
+   },
+   {
+    "label": "3.7V 500mAh",
+    "price": 229
+   },
+   {
+    "label": "3.7V 1000mAh",
+    "price": 329
+   },
+   {
+    "label": "3.7V 2000mAh",
+    "price": 499
+   }
+  ],
+  "icon": "lipo",
+  "image_url": "",
+  "featured": false,
+  "active": true,
+  "sort": 36
+ },
+ {
+  "id": "battery-9v-clip",
+  "name": "9 V Battery with Snap Clip",
+  "category": "power",
+  "price": 59,
+  "mrp": null,
+  "stock": 40,
+  "description": "A 9 V battery with a snap-on connector. Powers an Arduino Uno through the barrel jack or runs small circuits.",
+  "specs": [
+   {
+    "k": "Voltage",
+    "v": "9 V"
+   },
+   {
+    "k": "Includes",
+    "v": "Battery + snap clip"
+   }
+  ],
+  "options": [],
+  "icon": "batt9",
+  "image_url": "",
+  "featured": false,
+  "active": true,
+  "sort": 37
+ },
+ {
+  "id": "transformer",
+  "name": "Step-Down Transformer",
+  "category": "power",
+  "price": 149,
+  "mrp": null,
+  "stock": 25,
+  "description": "Mains step-down transformers for power-supply and rectifier projects. Choose the rating. Mains voltage is dangerous: get supervision if you are a beginner.",
+  "specs": [
+   {
+    "k": "Primary",
+    "v": "230 V AC"
+   },
+   {
+    "k": "Warning",
+    "v": "Mains voltage can be deadly"
+   }
+  ],
+  "options": [
+   {
+    "label": "0-12V 500mA",
+    "price": null
+   },
+   {
+    "label": "0-12V 1A",
+    "price": 199
+   },
+   {
+    "label": "12-0-12V 500mA",
+    "price": 189
+   },
+   {
+    "label": "12-0-12V 1A",
+    "price": 269
+   },
+   {
+    "label": "0-9V 500mA",
+    "price": 139
+   },
+   {
+    "label": "9-0-9V 500mA",
+    "price": 159
+   }
+  ],
+  "icon": "transformer",
+  "image_url": "",
+  "featured": false,
+  "active": true,
+  "sort": 38
+ },
+ {
+  "id": "multimeter-dt830b",
+  "name": "Digital Multimeter (DT830B)",
+  "category": "tools",
+  "price": 349,
+  "mrp": 449,
+  "stock": 12,
+  "description": "Compact digital multimeter: measure voltage, current and resistance, and test diodes and transistors. Essential for every student lab bench.",
+  "specs": [
+   {
+    "k": "Measures",
+    "v": "DC/AC voltage, DC current, resistance"
+   },
+   {
+    "k": "Extras",
+    "v": "Diode test, hFE transistor test"
+   },
+   {
+    "k": "Display",
+    "v": "Digital LCD"
+   }
+  ],
+  "options": [],
+  "icon": "meter",
+  "image_url": "",
+  "featured": true,
+  "active": true,
+  "sort": 39
+ },
+ {
+  "id": "soldering-kit",
+  "name": "Soldering Kit (iron, solder, flux & stand)",
+  "category": "tools",
+  "price": 449,
+  "mrp": 599,
+  "stock": 10,
+  "description": "Everything to start soldering: iron, solder wire, flux and a stand. Use in a ventilated area.",
+  "specs": [
+   {
+    "k": "Includes",
+    "v": "Soldering iron, solder wire, flux, stand"
+   },
+   {
+    "k": "Supply",
+    "v": "230 V AC"
+   }
+  ],
+  "options": [],
+  "icon": "solder",
+  "image_url": "",
+  "featured": true,
+  "active": true,
+  "sort": 40
+ }
+]

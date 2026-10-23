@@ -1,0 +1,348 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Student electronics store · Greater Noida</title>
+<meta name="description" content="ESP32, Arduino, sensors, displays and components for students in Greater Noida. Order online, pay on pickup or delivery.">
+<meta name="theme-color" content="#06100c">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/style.css">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="/js/supabase-config.js"></script>
+<script src="/js/backend.js"></script>
+<script src="/js/icons.js"></script>
+<script src="/js/common.js"></script>
+</head>
+<body>
+<div id="site-header"></div>
+<main id="main">
+
+<section class="hero">
+  <div class="container hero-grid">
+    <div>
+      <span class="kicker hero-load">Greater Noida · for students</span>
+      <h1 class="hero-load">Build it. Flash it. <span class="hl">Ship it.</span></h1>
+      <p class="lead hero-load" id="tagline">Microcontrollers, sensors, displays, and readymade engineering projects. Order online, 40% advance on confirmation, balance on delivery.</p>
+      <div class="hero-cta hero-load">
+        <a class="btn lg" href="/shop">Shop components →</a>
+        <a class="btn lg ghost" href="#kits">Readymade Projects</a>
+        <a class="btn lg ghost" href="#custom-request">Upload your list</a>
+      </div>
+      <div class="trust hero-load">
+        <span class="chip">🚚 <b>Free delivery</b> · GL Bajaj &amp; KCC</span>
+        <span class="chip">⚡ <b>40% advance</b> on confirmation</span>
+        <span class="chip"><b>Balance</b> on pickup / delivery</span>
+      </div>
+    </div>
+    <div class="hero-stage" aria-hidden="true">
+      <div class="glow"></div>
+      <svg class="traces" viewBox="0 0 500 520" preserveAspectRatio="none">
+        <path d="M0 110H130L180 160H330L370 120H500"/><path d="M0 300H90L140 350H260L300 310H500"/><path d="M0 450H200L240 410H500"/><path d="M250 0V90L290 130V260"/>
+        <path class="flow" d="M0 110H130L180 160H330L370 120H500"/><path class="flow b" d="M0 300H90L140 350H260L300 310H500"/><path class="flow" d="M0 450H200L240 410H500"/>
+      </svg>
+      <div class="fl" data-icon="esp" data-speed=".05" data-depth="16" style="--x:36%;--y:4%;--s:150px;--r:-8deg;--dur:7s;--dx:12px"></div>
+      <div class="fl" data-icon="uno" data-speed="-.04" data-depth="26" style="--x:0%;--y:36%;--s:200px;--r:8deg;--dur:8s;--delay:-2s;--dx:-8px"></div>
+      <div class="fl" data-icon="oled" data-speed=".09" data-depth="20" style="--x:58%;--y:44%;--s:160px;--r:-6deg;--dur:6.5s;--delay:-1s"></div>
+      <div class="fl" data-icon="led" data-speed=".12" data-depth="30" style="--x:76%;--y:2%;--s:96px;--r:10deg;--dur:5.5s;--delay:-3s"></div>
+      <div class="fl" data-icon="resistor" data-speed="-.08" data-depth="12" style="--x:14%;--y:6%;--s:120px;--r:-22deg;--dur:6s;--delay:-4s"></div>
+      <div class="fl" data-icon="ic555" data-speed=".07" data-depth="24" style="--x:48%;--y:72%;--s:120px;--r:14deg;--dur:7.5s;--delay:-2.5s"></div>
+      <div class="fl" data-icon="capc" data-speed="-.1" data-depth="28" style="--x:86%;--y:30%;--s:90px;--r:6deg;--dur:5s;--delay:-1.5s"></div>
+      <div class="fl" data-icon="breadboard" data-speed=".04" data-depth="10" style="--x:12%;--y:72%;--s:180px;--r:-5deg;--dur:9s;--delay:-5s"></div>
+      <div class="fl" data-icon="sensor" data-speed="-.06" data-depth="22" style="--x:74%;--y:70%;--s:120px;--r:12deg;--dur:6.8s;--delay:-3.5s"></div>
+      <div class="fl" data-icon="meter" data-speed=".1" data-depth="18" style="--x:30%;--y:40%;--s:110px;--r:-10deg;--dur:8.5s;--delay:-6s"></div>
+    </div>
+  </div>
+</section>
+
+<div class="marquee" aria-hidden="true"><div class="marquee-track" id="marquee"></div></div>
+
+<section class="section">
+  <div class="container">
+    <div class="stats" id="stats">
+      <div class="stat reveal"><b data-count="40" data-suffix="+" id="st-parts">40+</b><span>parts &amp; projects in stock</span></div>
+      <div class="stat reveal" style="--d:.08s"><b data-count="15" id="st-areas">15</b><span>campus areas we deliver to</span></div>
+      <div class="stat reveal" style="--d:.16s"><b data-count="30" data-prefix="₹" id="st-fee">₹30</b><span id="st-fee-l">campus delivery</span></div>
+      <div class="stat reveal" style="--d:.24s"><b>Free</b><span>delivery across GL Bajaj &amp; KCC</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="cats" style="padding-top:0">
+  <div class="container">
+    <div class="sec-head reveal"><span class="kicker">Browse</span><h2>Everything for your next build</h2><p>From a first blinking LED to an IoT water-quality monitor.</p></div>
+    <div class="cats" id="catgrid"></div>
+  </div>
+</section>
+
+<section class="section" id="featured" style="padding-top:0">
+  <div class="container">
+    <div class="sec-head reveal"><span class="kicker">Student favourites</span><h2>Popular right now</h2></div>
+    <div class="grid" id="featgrid"><div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div></div>
+    <p style="margin-top:26px" class="reveal"><a class="btn ghost" href="/shop">See all products →</a></p>
+  </div>
+</section>
+
+<section class="section" id="kits" style="padding-top:0">
+  <div class="container">
+    <div class="sec-head reveal" style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:16px">
+      <div>
+        <span class="kicker">Readymade Projects</span>
+        <h2>Pre-built &amp; Working Hardware Projects</h2>
+        <p>Complete, tested hardware and IoT projects ready for college demonstration and lab submission. Add the project to your cart or order custom builds.</p>
+      </div>
+      <a class="btn ghost" href="#custom-request" style="border-color:var(--cyan);color:var(--cyan);white-space:nowrap">Upload your list →</a>
+    </div>
+    <div class="kits" id="kitgrid"></div>
+  </div>
+</section>
+
+<section class="section" id="custom-request" style="padding-top:0">
+  <div class="container">
+    <div class="card panel reveal" style="padding:clamp(24px,5vw,44px);border:1px solid var(--line2);background:linear-gradient(145deg,rgba(14,33,26,0.96),rgba(10,25,19,0.98));position:relative;overflow:hidden">
+      <div style="position:absolute;top:-40px;right:-40px;width:240px;height:240px;background:radial-gradient(circle,rgba(55,230,208,0.12),transparent 70%);pointer-events:none"></div>
+
+      <div class="sec-head" style="max-width:760px">
+        <span class="kicker" style="color:var(--cyan)">⚡ Custom Parts &amp; Project BOM</span>
+        <h2 style="margin-top:10px">Upload your own project list</h2>
+        <p style="color:var(--mute);font-size:1.02rem">
+          Building a college project, lab circuit, or final-year prototype? Paste your list of components or upload a photo/PDF/CSV — <b>even if they are marked out of stock or unlisted</b>. We source directly from Greater Noida &amp; Delhi suppliers and WhatsApp you an instant quote!
+        </p>
+      </div>
+
+      <!-- Main Request Form Container -->
+      <div id="bom-form-container">
+        <form id="bom-request-form" novalidate>
+          <div class="cart-layout" style="gap:30px;align-items:start">
+
+            <!-- Left Column: Component List & File Upload -->
+            <div style="display:grid;gap:18px">
+
+              <!-- Tab switch: Text list vs File upload -->
+              <div style="display:flex;gap:10px;align-items:center;border-bottom:1px solid var(--line);padding-bottom:12px;flex-wrap:wrap">
+                <button type="button" class="btn sm" id="bom-tab-text" style="background:var(--lime);color:#07120c">
+                  ✍️ Type or Paste List
+                </button>
+                <button type="button" class="btn sm ghost" id="bom-tab-file" style="color:var(--ink)">
+                  📎 Upload File / Photo
+                </button>
+                <button type="button" class="btn sm dark" id="bom-sample-btn" style="margin-left:auto;font-size:0.8rem">
+                  ＋ Fill Sample BOM
+                </button>
+              </div>
+
+              <!-- Textarea view -->
+              <div id="bom-text-pane">
+                <div class="field">
+                  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+                    <label for="bom-text" style="font-size:0.88rem;color:var(--ink);font-weight:600">Components List (one per line with quantities) *</label>
+                    <span id="bom-count-badge" class="badge" style="background:rgba(55,230,208,0.15);color:var(--cyan);font-size:0.75rem">0 items</span>
+                  </div>
+                  <textarea id="bom-text" class="input mono" rows="6" placeholder="e.g.&#10;2× Arduino Nano V3 (ATmega328P)&#10;5× BC547 NPN Transistors&#10;1× SIM800L GSM Module&#10;1× 0.96 inch I2C OLED (SSD1306)&#10;10× 10kΩ 1/4W Resistors&#10;1× SG90 Micro Servo Motor" style="font-size:0.88rem;line-height:1.5"></textarea>
+                  <small style="color:var(--mute)">Include part numbers, values, and quantities if known.</small>
+                </div>
+              </div>
+
+              <!-- File upload dropzone -->
+              <div id="bom-file-pane">
+                <label style="font-size:0.85rem;color:var(--mute);font-weight:500;display:block;margin-bottom:6px">
+                  Upload Component List, Bill of Materials, or Circuit Photo
+                </label>
+                <div id="bom-dropzone" style="border:2px dashed var(--line2);border-radius:14px;padding:28px 20px;text-align:center;background:rgba(255,255,255,0.02);cursor:pointer;transition:border-color .2s,background .2s">
+                  <input type="file" id="bom-file-input" accept="image/*,.pdf,.txt,.csv,.xlsx,.xls,.doc,.docx" style="display:none">
+                  <div style="font-size:2rem;margin-bottom:8px">📄</div>
+                  <div style="font-weight:600;color:var(--ink);margin-bottom:4px">
+                    Click to browse or drag &amp; drop your file here
+                  </div>
+                  <div style="font-size:0.82rem;color:var(--mute)">
+                    Supports: Images (PNG/JPG), PDF, CSV, TXT, Excel (Max 5 MB)
+                  </div>
+                </div>
+
+                <!-- File Attached Preview Badge -->
+                <div id="bom-file-badge" class="hide" style="margin-top:12px;display:flex;align-items:center;gap:12px;background:var(--card2);border:1px solid var(--line2);border-radius:10px;padding:10px 14px">
+                  <div id="bom-file-icon" style="font-size:1.4rem">📎</div>
+                  <div style="flex:1;min-width:0">
+                    <div id="bom-file-name" style="font-weight:600;font-size:0.9rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">filename.pdf</div>
+                    <div id="bom-file-size" style="font-size:0.75rem;color:var(--mute)">120 KB</div>
+                  </div>
+                  <button type="button" id="bom-file-remove" style="color:var(--red);font-size:1.1rem;padding:4px 8px" title="Remove file">&times;</button>
+                </div>
+              </div>
+
+              <!-- Optional notes / special instructions -->
+              <div class="field">
+                <label for="bom-notes" style="font-size:0.85rem;color:var(--mute);font-weight:500">Special Requirements / Notes (Optional)</label>
+                <input id="bom-notes" class="input" placeholder="e.g. SMD packaging preferred, need with pin headers soldered, or urgent for lab tomorrow">
+              </div>
+
+            </div>
+
+            <!-- Right Column: Student Info & Submit Box -->
+            <div class="card" style="padding:22px;border:1px solid var(--line2);background:var(--card);position:sticky;top:90px">
+              <h3 style="margin-bottom:14px;font-size:1.15rem;display:flex;align-items:center;gap:8px">
+                <span style="color:var(--lime)">●</span> Student Details
+              </h3>
+
+              <div style="display:grid;gap:12px">
+                <div class="field">
+                  <label for="bom-name">Full Name *</label>
+                  <input id="bom-name" class="input" required placeholder="e.g. Aryan Gupta">
+                </div>
+
+                <div class="field">
+                  <label for="bom-phone">WhatsApp Mobile Number *</label>
+                  <input id="bom-phone" class="input" required type="tel" placeholder="10-digit number (e.g. 9876543210)">
+                  <small style="color:var(--mute)">We'll send availability and quotation here.</small>
+                </div>
+
+                <div class="field">
+                  <label for="bom-college">College / University</label>
+                  <input id="bom-college" class="input" list="college-suggestions" placeholder="e.g. Galgotias / Sharda / GL Bajaj">
+                  <datalist id="college-suggestions">
+                    <option value="Galgotias University">
+                    <option value="Sharda University">
+                    <option value="GL Bajaj Institute of Technology">
+                    <option value="NIET Greater Noida">
+                    <option value="GNIOT Greater Noida">
+                    <option value="Gautam Buddha University (GBU)">
+                    <option value="Bennett University">
+                    <option value="ITS Engineering College">
+                  </datalist>
+                </div>
+
+                <div class="field">
+                  <label for="bom-deadline">How urgently do you need these parts?</label>
+                  <select id="bom-deadline" class="input">
+                    <option value="Today / Tomorrow (Urgent)">⚡ Today / Tomorrow (Urgent for lab/exam)</option>
+                    <option value="Within 2-3 Days" selected>📅 Within 2–3 Days</option>
+                    <option value="This Weekend">🗓️ By this Weekend</option>
+                    <option value="Within 1-2 Weeks">⏳ Within 1–2 Weeks (Semester Project)</option>
+                  </select>
+                </div>
+
+                <div class="field">
+                  <label>Preferred Handover</label>
+                  <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+                    <label class="method" style="padding:10px 12px;font-size:0.85rem">
+                      <input type="radio" name="bom-method" value="pickup" checked>
+                      <b>📍 Pickup</b>
+                      <small>Knowledge Park II</small>
+                    </label>
+                    <label class="method" style="padding:10px 12px;font-size:0.85rem">
+                      <input type="radio" name="bom-method" value="delivery">
+                      <b>🚚 Delivery</b>
+                      <small>Hostel / Campus</small>
+                    </label>
+                  </div>
+                </div>
+
+                <div id="bom-err" class="err-msg"></div>
+
+                <button type="submit" class="btn lg" id="bom-submit-btn" style="width:100%;margin-top:6px">
+                  <span>Send Component Request →</span>
+                </button>
+
+                <div style="font-size:0.78rem;color:var(--mute);text-align:center;line-height:1.4">
+                  🔒 We check stock across suppliers, send you an itemized quote, and request 40% advance on confirmation. Balance paid on delivery.
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </form>
+      </div>
+
+      <!-- Success Confirmation (hidden initially) -->
+      <div id="bom-success-container" class="hide success">
+        <svg class="check" viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="46"/>
+          <path d="M28 52 L42 66 L72 36"/>
+        </svg>
+        <span class="badge" style="background:rgba(55,230,208,0.2);color:var(--cyan);margin-bottom:12px;display:inline-block">Request Received</span>
+        <h2>Component Request Submitted!</h2>
+        <p style="color:var(--mute);max-width:480px;margin:8px auto 16px">
+          We have logged your custom component list. Our team in Greater Noida will check supplier inventory for any out-of-stock or rare parts.
+        </p>
+
+        <div>
+          <span style="font-size:0.85rem;color:var(--mute);display:block">Your Request Tracking Code:</span>
+          <div class="code-box" id="bom-result-code">BOM-XXXXX</div>
+        </div>
+
+        <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin:24px 0">
+          <a id="bom-wa-btn" class="btn" target="_blank" rel="noopener" style="background:#25d366;color:#fff">
+            💬 Send List on WhatsApp Directly
+          </a>
+          <a id="bom-track-btn" class="btn ghost" href="/track">
+            Track Status →
+          </a>
+          <button type="button" id="bom-reset-btn" class="btn dark">
+            Submit Another List
+          </button>
+        </div>
+
+        <div id="bom-recap-box" style="text-align:left;max-width:520px;margin:20px auto 0;background:var(--card);border:1px solid var(--line2);border-radius:12px;padding:16px">
+          <div style="font-weight:600;font-size:0.9rem;margin-bottom:8px;color:var(--lime)">Requested Components Summary:</div>
+          <div id="bom-recap-items" style="font-size:0.88rem;color:var(--ink);white-space:pre-line"></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section class="section" id="how" style="padding-top:0">
+  <div class="container">
+    <div class="sec-head reveal"><span class="kicker">How it works</span><h2>Order in minutes, pay when it's in your hand</h2></div>
+    <div class="steps" id="steps">
+      <div class="step card reveal"><span class="n">01</span><h3>Pick your parts</h3><p>Browse the shop, choose values like 10kΩ or BC547, and add to cart.</p></div>
+      <div class="step card reveal" style="--d:.1s"><span class="n">02</span><h3>Send the order form</h3><p>Name, phone and delivery area. We verify stock and confirm order with 40% advance.</p></div>
+      <div class="step card reveal" style="--d:.2s"><span class="n">03</span><h3>We confirm &amp; pack</h3><p>We confirm your order by call or WhatsApp. Track it anytime with your order code.</p></div>
+      <div class="step card reveal" style="--d:.3s"><span class="n">04</span><h3>Collect &amp; pay</h3><p>Pick up from us or get it delivered on campus. Pay cash or UPI when you receive it.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="areas" style="padding-top:0">
+  <div class="container two">
+    <div class="card panel reveal" data-anim="left">
+      <span class="kicker">Delivery</span><h3 style="margin-top:10px">We deliver across Greater Noida</h3>
+      <p class="muted" id="deliv-note" style="margin-bottom:14px"></p>
+      <div class="chips" id="areachips"></div>
+    </div>
+    <div class="card panel reveal" data-anim="right">
+      <span class="kicker">Pickup</span><h3 style="margin-top:10px">Collect it yourself</h3>
+      <ul class="list-check"><li><b>Where:</b> <span id="p-addr">…</span></li><li><b>When:</b> <span id="p-hours">…</span></li><li><b>Pay:</b> cash or UPI on pickup</li></ul>
+      <a class="btn ghost" href="/about">Pickup &amp; contact details</a>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="faq" style="padding-top:0">
+  <div class="container">
+    <div class="sec-head reveal"><span class="kicker">Quick answers</span><h2>Good to know</h2></div>
+    <div class="faq reveal">
+      <details><summary>How does payment work?</summary><p>Send the order form. Once our team verifies stock and confirms your order, you pay a 40% advance via UPI to initiate packing/assembly. The remaining balance is paid on pickup or delivery (Cash / UPI).</p></details>
+      <details><summary>What if I need a resistor or IC value that is not listed?</summary><p>Write it in the order notes at checkout and we will confirm availability when we contact you.</p></details>
+      <details><summary>How do I know my order is confirmed?</summary><p>You get an order code right after ordering. We contact you on your phone to confirm, and you can check the status any time on the Track order page.</p></details>
+      <details><summary>Can I cancel an order?</summary><p>Yes, before pickup or delivery. Message us on WhatsApp or call with your order code.</p></details>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="padding-top:0">
+  <div class="container"><div class="cta reveal" data-anim="zoom">
+    <h2>Got a deadline? Let's get your parts ready.</h2>
+    <p>Add what you need to the cart and send the order form. It takes about two minutes.</p>
+    <a class="btn lg" href="/shop">Start shopping →</a>
+  </div></div>
+</section>
+
+</main>
+<div id="site-footer"></div>
+<script src="/js/home.js"></script>
+</body>
+</html>
