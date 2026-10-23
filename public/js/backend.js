@@ -273,13 +273,13 @@
         status: 'new'
       };
 
-      const { data: inserted, error: oErr } = await sb.from('orders').insert(payload).select().single();
+      const { error: oErr } = await sb.from('orders').insert(payload);
       if (oErr) {
         throw new Error('Could not submit order: ' + oErr.message);
       }
 
       return {
-        code: inserted.order_code || code,
+        code: code,
         name: name,
         method: method,
         subtotal: subtotal,
@@ -355,13 +355,13 @@
         status: 'new'
       };
 
-      const { data: inserted, error: oErr } = await sb.from('orders').insert(payload).select().single();
+      const { error: oErr } = await sb.from('orders').insert(payload);
       if (oErr) {
         throw new Error('Could not submit component request: ' + oErr.message);
       }
 
       return {
-        code: inserted.order_code || code,
+        code: code,
         name: name,
         phone: phone,
         method: method,
