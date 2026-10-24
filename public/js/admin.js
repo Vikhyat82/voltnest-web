@@ -71,8 +71,21 @@
     return sb;
   }
 
+  // Demo Mode trigger button on login view
+  const btnDemoMode = $('#btn-demo-mode');
+  if (btnDemoMode) {
+    btnDemoMode.addEventListener('click', () => {
+      enterDemoMode();
+    });
+  }
+
   /* ---------------- AUTHENTICATION & ACCESS CONTROL ---------------- */
   async function initAuth() {
+    if (new URLSearchParams(location.search).has('demo')) {
+      enterDemoMode();
+      return;
+    }
+
     if (!isConfigured) {
       authErr.innerHTML = '⚠️ Setup required: Please open <code>public/js/supabase-config.js</code> and enter your Supabase URL & Anon Key.';
       return;
@@ -789,6 +802,15 @@
     const term = ($('#search-orders').value || '').trim().toLowerCase();
     const filterStatus = $('#filter-order-status').value;
 
+    // Update bulk delete button state for cancelled orders
+    const cancelledTotal = orders.filter((o) => o.status === 'cancelled').length;
+    const btnDeleteCancelled = $('#btn-delete-cancelled');
+    const cancelledCountEl = $('#cancelled-count');
+    if (btnDeleteCancelled && cancelledCountEl) {
+      cancelledCountEl.textContent = cancelledTotal;
+      btnDeleteCancelled.classList.toggle('hide', cancelledTotal === 0);
+    }
+
     const filtered = orders.filter((o) => {
       const code = String(o.order_code || o.code || '');
       const isCustom = code.startsWith('BOM-') || code.startsWith('REQ-') || (o.notes && o.notes.includes('BOM')) || (Array.isArray(o.items) && o.items.some((it) => it.is_custom));
@@ -817,6 +839,7 @@
       const code = String(o.order_code || o.code || 'ORD-');
       const custName = o.customer_name || o.name || 'Customer';
       const isCustom = code.startsWith('BOM-') || code.startsWith('REQ-') || (o.notes && o.notes.includes('BOM')) || items.some((it) => it.is_custom);
+      const isOtpVerified = !!o.otp_verified || (o.notes && o.notes.includes('Phone Verified via OTP'));
       const attachedFile = items.find((it) => it.file)?.file;
 
       // WhatsApp message template based on current status & request type
@@ -844,6 +867,7 @@
             <span>${esc(code)}</span>
             <span class="status-pill ${esc(o.status)}">${o.status === 'ready' ? 'Shipment Ready' : esc(o.status)}</span>
             ${isCustom ? `<span class="status-pill" style="background:rgba(55,230,208,0.18);color:var(--admin-cyan);border:1px solid rgba(55,230,208,0.3)">📋 Custom BOM</span>` : ''}
+            ${isOtpVerified ? `<span class="status-pill" style="background:rgba(52,211,153,0.16);color:var(--admin-green);border:1px solid rgba(52,211,153,0.35);font-weight:600">✓ OTP Verified</span>` : ''}
           </div>
           <span style="color:var(--admin-muted);font-size:0.82rem">${formatIST(o.created_at)}</span>
         </div>
@@ -911,7 +935,12 @@
               <option value="cancelled" ${o.status === 'cancelled' ? 'selected' : ''}>Cancelled (Restores Stock)</option>
             </select>
           </div>
-          <div style="display:flex;gap:8px">
+          <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+            ${o.status === 'cancelled' ? `
+              <button class="admin-btn sm danger" data-delete-order="${esc(o.id)}" data-order-code="${esc(code)}" title="Permanently delete this cancelled order log">
+                🗑️ Delete Log
+              </button>
+            ` : ''}
             <a class="admin-btn sm" href="${waUrl}" target="_blank" rel="noopener">WhatsApp Customer ↗</a>
             <button class="admin-btn sm" data-copy-phone="${esc(o.phone)}">Copy Phone</button>
           </div>
@@ -924,7 +953,48 @@
   $('#filter-order-status').addEventListener('change', renderOrders);
   $('#refresh-orders').addEventListener('click', loadOrders);
 
-  // Status Change & Copy Phone handlers
+  // Bulk Delete Cancelled Orders
+  const btnDeleteCancelled = $('#btn-delete-cancelled');
+  if (btnDeleteCancelled) {
+    btnDeleteCancelled.addEventListener('click', async () => {
+      const cancelledList = orders.filter((x) => x.status === 'cancelled');
+      if (!cancelledList.length) return;
+
+      if (!confirm(`Permanently delete all ${cancelledList.length} cancelled order logs? This will clean up your order records.`)) {
+        return;
+      }
+
+      btnDeleteCancelled.disabled = true;
+      btnDeleteCancelled.textContent = 'Deleting…';
+
+      if (isDemo) {
+        orders = orders.filter((x) => x.status !== 'cancelled');
+        localStorage.setItem('voltnest_orders', JSON.stringify(orders));
+        try {
+          const demoO = JSON.parse(localStorage.getItem('vn_demo_orders') || '[]').filter((x) => x.status !== 'cancelled');
+          localStorage.setItem('vn_demo_orders', JSON.stringify(demoO));
+        } catch {}
+        btnDeleteCancelled.disabled = false;
+        renderOrders();
+        updateMetrics();
+        return;
+      }
+
+      if (!sb) return;
+      const { error } = await sb.from('orders').delete().eq('status', 'cancelled');
+      btnDeleteCancelled.disabled = false;
+      if (!error) {
+        orders = orders.filter((x) => x.status !== 'cancelled');
+        renderOrders();
+        updateMetrics();
+      } else {
+        alert('Could not delete cancelled orders: ' + error.message);
+        renderOrders();
+      }
+    });
+  }
+
+  // Status Change & Order Deletion & Copy Phone handlers
   $('#orders-list').addEventListener('change', async (e) => {
     const sel = e.target.closest('[data-order-status]');
     if (!sel) return;
@@ -954,7 +1024,48 @@
     }
   });
 
-  $('#orders-list').addEventListener('click', (e) => {
+  $('#orders-list').addEventListener('click', async (e) => {
+    // Delete individual cancelled order log
+    const delBtn = e.target.closest('[data-delete-order]');
+    if (delBtn) {
+      const orderId = delBtn.dataset.deleteOrder;
+      const orderCode = delBtn.dataset.orderCode || 'this order';
+
+      if (!confirm(`Are you sure you want to permanently delete the log for cancelled order ${orderCode}? This action cannot be undone.`)) {
+        return;
+      }
+
+      delBtn.disabled = true;
+      delBtn.textContent = 'Deleting…';
+
+      if (isDemo) {
+        orders = orders.filter((x) => String(x.id) !== String(orderId) && String(x.order_code) !== String(orderCode) && String(x.code) !== String(orderCode));
+        localStorage.setItem('voltnest_orders', JSON.stringify(orders));
+        try {
+          const demoO = JSON.parse(localStorage.getItem('vn_demo_orders') || '[]')
+            .filter((x) => String(x.id) !== String(orderId) && String(x.order_code) !== String(orderCode) && String(x.code) !== String(orderCode));
+          localStorage.setItem('vn_demo_orders', JSON.stringify(demoO));
+        } catch {}
+        renderOrders();
+        updateMetrics();
+        return;
+      }
+
+      if (!sb) return;
+      const { error } = await sb.from('orders').delete().or(`id.eq.${orderId},order_code.eq.${orderCode}`);
+      if (!error) {
+        orders = orders.filter((x) => String(x.id) !== String(orderId) && String(x.order_code) !== String(orderCode));
+        renderOrders();
+        updateMetrics();
+      } else {
+        alert('Could not delete order log: ' + error.message);
+        delBtn.disabled = false;
+        delBtn.textContent = '🗑️ Delete Log';
+      }
+      return;
+    }
+
+    // Copy phone number
     const btn = e.target.closest('[data-copy-phone]');
     if (btn) {
       const phone = btn.dataset.copyPhone;

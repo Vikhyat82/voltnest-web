@@ -57,6 +57,9 @@
           <button class="admin-btn primary full-width" type="submit" id="login-btn" style="width:100%;justify-content:center;margin-top:6px">
             Sign in to Control Room →
           </button>
+          <button type="button" class="admin-btn sm ghost full-width" id="btn-demo-mode" style="width:100%;justify-content:center;margin-top:8px">
+            ⚡ Quick Access: Offline Demo Mode
+          </button>
           <div id="auth-err" style="color:var(--admin-red);font-size:0.85rem;margin-top:12px;font-weight:600"></div>
         </form>
 
@@ -172,6 +175,9 @@ on conflict do nothing;</code></pre>
               <option value="cancelled">Cancelled</option>
             </select>
             <button class="admin-btn" id="refresh-orders">↻ Refresh Orders</button>
+            <button class="admin-btn danger sm hide" id="btn-delete-cancelled" title="Permanently delete all cancelled order logs">
+              🗑️ Delete Cancelled (<span id="cancelled-count">0</span>)
+            </button>
           </div>
         </div>
 

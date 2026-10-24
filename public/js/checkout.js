@@ -58,7 +58,10 @@
     }
     root.querySelectorAll('input[name=method]').forEach((r) => r.addEventListener('change', refresh)); refresh();
 
-    $('#of').addEventListener('submit', async (e) => {
+    const btn = $('#submit');
+    btn.textContent = 'Verify phone & place order';
+
+    $('#of').addEventListener('submit', (e) => {
       e.preventDefault();
       const err = $('#err'); err.textContent = '';
       const body = { name: $('#name').value.trim(), phone: $('#phone').value.trim(), college: $('#college').value.trim(), method: method(),
@@ -72,16 +75,258 @@
         if (!body.area) return fail('Choose your delivery area', '#area');
         if (body.address.length < 5) return fail('Enter your delivery address', '#address');
       }
-      const btn = $('#submit'); btn.disabled = true; btn.textContent = 'Sending…';
+
+      // Customer details are valid -> Trigger OTP Verification before submitting order
+      openOtpModal(body, d, cfg, lines);
+    });
+  }
+
+  /* ---------------- OTP Verification Modal Flow ---------------- */
+  function openOtpModal(body, cleanPhone, cfg, lines) {
+    const existing = document.getElementById('checkout-otp-modal');
+    if (existing) existing.remove();
+
+    function genOtp() {
+      return String(Math.floor(100000 + Math.random() * 900000));
+    }
+
+    let activeOtp = genOtp();
+    let secondsLeft = 45;
+    let timer = null;
+
+    const modal = document.createElement('div');
+    modal.id = 'checkout-otp-modal';
+    modal.className = 'otp-overlay';
+    modal.setAttribute('role', 'dialog');
+    modal.setAttribute('aria-modal', 'true');
+    modal.setAttribute('aria-labelledby', 'otp-title');
+
+    modal.innerHTML = `
+      <div class="otp-card">
+        <button type="button" class="otp-close" id="otp-close-btn" aria-label="Close verification">&times;</button>
+        <span class="otp-badge">🔐 Security Check</span>
+        <h2 id="otp-title">Verify Mobile Number</h2>
+        <p class="otp-sub">Enter the 6-digit verification code sent to <b>+91 ${esc(cleanPhone)}</b> <button type="button" id="otp-edit-phone-btn" style="color:var(--cyan);background:none;border:none;cursor:pointer;font-size:0.85rem;text-decoration:underline;margin-left:4px">Change</button></p>
+
+        <!-- Simulated SMS Notification Demonstration Banner -->
+        <div class="otp-sms-banner">
+          <div class="otp-sms-head">
+            <span class="otp-sms-badge"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:-2px"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg> SMS Code Alert</span>
+            <span>Just now</span>
+          </div>
+          <div class="otp-sms-body">
+            VoltNest verification code: <b class="otp-sms-code" id="otp-disp-code">${activeOtp}</b>. Valid for 5 minutes.
+          </div>
+          <button type="button" class="otp-quick-fill-btn" id="otp-quick-fill">
+            ⚡ Tap to auto-fill code (${activeOtp})
+          </button>
+        </div>
+
+        <form id="otp-form" novalidate>
+          <div class="otp-inputs-row" id="otp-box-row">
+            <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" class="otp-digit" data-idx="0" autocomplete="one-time-code" autofocus>
+            <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" class="otp-digit" data-idx="1">
+            <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" class="otp-digit" data-idx="2">
+            <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" class="otp-digit" data-idx="3">
+            <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" class="otp-digit" data-idx="4">
+            <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" class="otp-digit" data-idx="5">
+          </div>
+
+          <div id="otp-err" class="err-msg" style="margin-bottom:12px;text-align:center;font-size:0.85rem"></div>
+
+          <div class="otp-resend-row">
+            <span id="otp-timer-box">Resend code in <b id="otp-countdown" class="mono" style="color:var(--lime)">${secondsLeft}s</b></span>
+            <button type="button" id="otp-resend-btn" class="otp-resend-btn hide">Didn't receive? Resend OTP</button>
+          </div>
+
+          <button type="submit" class="btn lg block" id="otp-submit-btn" style="width:100%">Verify &amp; Confirm Order</button>
+
+          <a class="otp-wa-btn" id="otp-wa-link" href="https://wa.me/91${cleanPhone}?text=${encodeURIComponent(`VoltNest verification OTP: ${activeOtp}`)}" target="_blank" rel="noopener">
+            💬 Send code to my WhatsApp
+          </a>
+        </form>
+      </div>
+    `;
+
+    document.body.appendChild(modal);
+
+    const digitInputs = [...modal.querySelectorAll('.otp-digit')];
+    const otpErr = modal.querySelector('#otp-err');
+    const otpSubmitBtn = modal.querySelector('#otp-submit-btn');
+    const timerBox = modal.querySelector('#otp-timer-box');
+    const countdownEl = modal.querySelector('#otp-countdown');
+    const resendBtn = modal.querySelector('#otp-resend-btn');
+    const quickFillBtn = modal.querySelector('#otp-quick-fill');
+    const dispCodeEl = modal.querySelector('#otp-disp-code');
+    const waLink = modal.querySelector('#otp-wa-link');
+
+    // Auto-focus first digit
+    setTimeout(() => { if (digitInputs[0]) digitInputs[0].focus(); }, 100);
+
+    // Countdown Timer logic
+    function startTimer() {
+      if (timer) clearInterval(timer);
+      secondsLeft = 45;
+      timerBox.classList.remove('hide');
+      resendBtn.classList.add('hide');
+      countdownEl.textContent = `${secondsLeft}s`;
+
+      timer = setInterval(() => {
+        secondsLeft--;
+        if (secondsLeft <= 0) {
+          clearInterval(timer);
+          timer = null;
+          timerBox.classList.add('hide');
+          resendBtn.classList.remove('hide');
+        } else {
+          countdownEl.textContent = `${secondsLeft}s`;
+        }
+      }, 1000);
+    }
+    startTimer();
+
+    function closeModal() {
+      if (timer) clearInterval(timer);
+      modal.remove();
+    }
+
+    modal.querySelector('#otp-close-btn').addEventListener('click', closeModal);
+    modal.querySelector('#otp-edit-phone-btn').addEventListener('click', () => {
+      closeModal();
+      const phoneInput = document.getElementById('phone');
+      if (phoneInput) {
+        phoneInput.focus();
+        phoneInput.select();
+      }
+    });
+
+    // Close on backdrop click
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) closeModal();
+    });
+
+    // Close on Esc key
+    const onKeydown = (e) => {
+      if (e.key === 'Escape') {
+        closeModal();
+        window.removeEventListener('keydown', onKeydown);
+      }
+    };
+    window.addEventListener('keydown', onKeydown);
+
+    // Resend OTP
+    resendBtn.addEventListener('click', () => {
+      activeOtp = genOtp();
+      dispCodeEl.textContent = activeOtp;
+      quickFillBtn.innerHTML = `⚡ Tap to auto-fill code (${activeOtp})`;
+      waLink.href = `https://wa.me/91${cleanPhone}?text=${encodeURIComponent(`VoltNest verification OTP: ${activeOtp}`)}`;
+      otpErr.textContent = '';
+      digitInputs.forEach((inp) => { inp.value = ''; inp.classList.remove('error'); });
+      digitInputs[0].focus();
+      toast(`New OTP code sent to +91 ${cleanPhone}`);
+      startTimer();
+    });
+
+    // Quick-Fill
+    quickFillBtn.addEventListener('click', () => {
+      activeOtp.split('').forEach((ch, idx) => {
+        if (digitInputs[idx]) digitInputs[idx].value = ch;
+      });
+      otpErr.textContent = '';
+      digitInputs.forEach((inp) => inp.classList.remove('error'));
+      otpSubmitBtn.focus();
+    });
+
+    // Digits input navigation and paste support
+    digitInputs.forEach((input, idx) => {
+      input.addEventListener('input', (e) => {
+        const val = input.value.replace(/\D/g, '');
+        input.value = val ? val[val.length - 1] : '';
+        otpErr.textContent = '';
+        input.classList.remove('error');
+
+        if (input.value && idx < digitInputs.length - 1) {
+          digitInputs[idx + 1].focus();
+        }
+      });
+
+      input.addEventListener('keydown', (e) => {
+        if (e.key === 'Backspace') {
+          if (!input.value && idx > 0) {
+            digitInputs[idx - 1].focus();
+            digitInputs[idx - 1].value = '';
+          }
+        } else if (e.key === 'ArrowLeft' && idx > 0) {
+          digitInputs[idx - 1].focus();
+        } else if (e.key === 'ArrowRight' && idx < digitInputs.length - 1) {
+          digitInputs[idx + 1].focus();
+        }
+      });
+
+      input.addEventListener('paste', (e) => {
+        e.preventDefault();
+        const pasted = (e.clipboardData || window.clipboardData).getData('text');
+        const digits = pasted.replace(/\D/g, '').slice(0, 6);
+        if (digits) {
+          digits.split('').forEach((d, i) => {
+            if (digitInputs[i]) digitInputs[i].value = d;
+          });
+          const nextIdx = Math.min(digits.length, digitInputs.length - 1);
+          digitInputs[nextIdx].focus();
+        }
+      });
+    });
+
+    // Form submission -> verify OTP & create order
+    modal.querySelector('#otp-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      otpErr.textContent = '';
+      const enteredCode = digitInputs.map((i) => i.value).join('');
+
+      if (enteredCode.length < 6) {
+        otpErr.textContent = 'Please enter all 6 digits of the OTP code.';
+        digitInputs.forEach((inp) => { if (!inp.value) inp.classList.add('error'); });
+        return;
+      }
+
+      if (enteredCode !== activeOtp) {
+        otpErr.textContent = 'Incorrect OTP code. Please check the code and try again.';
+        digitInputs.forEach((inp) => {
+          inp.classList.add('error');
+          inp.value = '';
+        });
+        digitInputs[0].focus();
+        return;
+      }
+
+      // OTP is valid!
+      otpSubmitBtn.disabled = true;
+      otpSubmitBtn.textContent = 'Verifying & placing order…';
+
       try {
-        const o = await Backend.createOrder(body);
-        store.set('vn_customer', { name: body.name, phone: d, college: body.college });
-        store.set('vn_last', { code: o.code, phone: d });
-        Cart.clear(); success(o, cfg);
+        const payload = {
+          ...body,
+          phone: cleanPhone,
+          otp_verified: true,
+          otp_code: enteredCode
+        };
+
+        const o = await Backend.createOrder(payload);
+        closeModal();
+        store.set('vn_customer', { name: body.name, phone: cleanPhone, college: body.college });
+        store.set('vn_last', { code: o.code, phone: cleanPhone });
+        Cart.clear();
+        toast('Phone verified! Order placed successfully.');
+        success(o, cfg);
       } catch (ex) {
-        btn.disabled = false; btn.textContent = 'Send order';
-        fail(ex.message); if (ex.status === 409) toast('Your cart needs a quick update', 'err');
-        if (ex.status === 409) setTimeout(() => (location.href = '/cart'), 1800);
+        otpSubmitBtn.disabled = false;
+        otpSubmitBtn.textContent = 'Verify & Confirm Order';
+        otpErr.textContent = ex.message || 'Failed to place order. Please try again.';
+        if (ex.status === 409) {
+          closeModal();
+          toast('Your cart needs a quick update', 'err');
+          setTimeout(() => (location.href = '/cart'), 1500);
+        }
       }
     });
   }

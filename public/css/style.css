@@ -385,10 +385,37 @@ select.input option{background:var(--card);color:var(--ink)}
 .prose{max-width:760px}
 .prose p{color:var(--mute);margin-bottom:14px}
 .prose h2{margin:30px 0 10px;font-size:1.6rem}
-.big404{font-family:var(--f-mono);font-size:clamp(5rem,20vw,11rem);color:var(--lime);line-height:1;text-shadow:0 0 40px rgba(182,255,59,.35)}
+/* ============ OTP Verification Modal ============ */
+.otp-overlay{position:fixed;inset:0;background:rgba(4,11,8,.86);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);z-index:1000;display:grid;place-items:center;padding:16px;animation:otpFadeIn .25s ease}
+.otp-card{background:var(--card2);border:1px solid var(--line2);border-radius:22px;padding:clamp(22px,4vw,34px);max-width:460px;width:100%;box-shadow:0 24px 60px -15px rgba(0,0,0,.85),0 0 35px -8px rgba(182,255,59,.18);position:relative;animation:otpPopIn .3s cubic-bezier(.2,.8,.2,1)}
+.otp-close{position:absolute;top:14px;right:14px;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;color:var(--mute);font-size:1.4rem;transition:.2s;background:transparent}
+.otp-close:hover{color:var(--lime);background:rgba(182,255,59,.1)}
+.otp-badge{display:inline-flex;align-items:center;gap:6px;font-family:var(--f-mono);font-size:.72rem;color:var(--lime);background:rgba(182,255,59,.12);border:1px solid rgba(182,255,59,.25);padding:4px 10px;border-radius:99px;text-transform:uppercase;letter-spacing:.08em;font-weight:600}
+.otp-card h2{font-size:1.45rem;margin:12px 0 6px}
+.otp-sub{font-size:.9rem;color:var(--mute);margin-bottom:18px;line-height:1.5}
+.otp-sms-banner{background:rgba(10,25,19,.95);border:1px solid var(--lime);border-radius:14px;padding:12px 14px;margin-bottom:20px;box-shadow:0 4px 16px rgba(182,255,59,.12)}
+.otp-sms-head{display:flex;justify-content:space-between;align-items:center;font-size:.72rem;font-family:var(--f-mono);text-transform:uppercase;color:var(--mute);margin-bottom:6px}
+.otp-sms-badge{color:var(--lime);font-weight:700;display:inline-flex;align-items:center;gap:4px}
+.otp-sms-body{font-size:.85rem;color:var(--ink);line-height:1.4;margin-bottom:10px}
+.otp-sms-code{font-family:var(--f-mono);font-weight:700;font-size:1.15rem;color:var(--lime);letter-spacing:.12em;background:rgba(182,255,59,.14);padding:2px 8px;border-radius:6px;display:inline-block;margin:0 4px}
+.otp-quick-fill-btn{width:100%;background:rgba(182,255,59,.14);color:var(--lime);border:1px dashed var(--lime);padding:7px 12px;border-radius:8px;font-family:var(--f-mono);font-size:.8rem;font-weight:600;display:flex;align-items:center;justify-content:center;gap:6px;transition:.2s;cursor:pointer}
+.otp-quick-fill-btn:hover{background:var(--lime);color:#06100c}
+.otp-inputs-row{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin-bottom:14px}
+.otp-digit{width:100%;height:52px;text-align:center;font-family:var(--f-mono);font-size:1.45rem;font-weight:700;background:var(--bg);border:2px solid var(--line2);border-radius:12px;color:var(--lime);transition:border-color .2s,box-shadow .2s;caret-color:var(--lime)}
+.otp-digit:focus{outline:none;border-color:var(--lime);box-shadow:0 0 0 3px rgba(182,255,59,.25)}
+.otp-digit.error{border-color:var(--red);animation:otpShake .4s ease}
+.otp-resend-row{display:flex;justify-content:space-between;align-items:center;font-size:.82rem;color:var(--mute);margin:12px 0 18px;min-height:22px}
+.otp-resend-btn{color:var(--cyan);font-weight:600;text-decoration:underline;text-underline-offset:3px;cursor:pointer;background:none;border:none;padding:0;font-size:.82rem}
+.otp-resend-btn:hover{color:var(--lime)}
+.otp-wa-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;width:100%;font-size:.82rem;color:#38e680;margin-top:12px;background:rgba(37,211,102,.08);border:1px solid rgba(37,211,102,.25);padding:9px;border-radius:10px;transition:.2s}
+.otp-wa-btn:hover{background:rgba(37,211,102,.16);border-color:#38e680}
+@keyframes otpFadeIn{from{opacity:0}to{opacity:1}}
+@keyframes otpPopIn{from{opacity:0;transform:scale(.92) translateY(12px)}to{opacity:1;transform:none}}
+@keyframes otpShake{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}
 
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
   .js .reveal{opacity:1;transform:none}
 }
 @media print{.site-header,.site-footer,.fab,#progress{display:none}}
+

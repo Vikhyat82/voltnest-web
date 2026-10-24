@@ -76,10 +76,14 @@ create table if not exists public.orders (
   delivery_fee numeric(10,2) not null default 0,
   total numeric(10,2) not null default 0,
   status text not null default 'new' check (status in ('new','pending','confirmed','ready','completed','cancelled')),
+  otp_verified boolean not null default false,
   owner_note text default '',
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
+
+-- Ensure column exists if migrating an existing orders table:
+alter table public.orders add column if not exists otp_verified boolean default false;
 
 -- Indexes for high-speed queries
 create index if not exists idx_products_active_sort on public.products (is_active, sort_order, name);
@@ -283,6 +287,11 @@ create policy "Admins can update orders" on public.orders
   for update to authenticated
   using (exists (select 1 from public.store_admins a where a.user_id = auth.uid()))
   with check (exists (select 1 from public.store_admins a where a.user_id = auth.uid()));
+
+drop policy if exists "Admins can delete orders" on public.orders;
+create policy "Admins can delete orders" on public.orders
+  for delete to authenticated
+  using (exists (select 1 from public.store_admins a where a.user_id = auth.uid()));
 
 -- 7. SEED INITIAL 41 PRODUCTS (VoltNest catalogue)
 insert into public.products (id, name, category, description, sku, price, mrp, stock, specs, options, icon, image_url, featured, is_active, sort_order)

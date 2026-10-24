@@ -257,6 +257,11 @@
       const total = subtotal + fee;
       const code = generateOrderCode();
 
+      const notesParts = [];
+      if (b.otp_verified) notesParts.push('[Phone Verified via OTP]');
+      if (b.notes) notesParts.push(String(b.notes).trim());
+      const notesValue = notesParts.length ? notesParts.join(' · ') : null;
+
       const payload = {
         order_code: code,
         customer_name: name,
@@ -265,15 +270,21 @@
         fulfilment: method,
         area: String(b.area || '').trim() || null,
         address: String(b.address || '').trim() || null,
-        notes: String(b.notes || '').trim() || null,
+        notes: notesValue,
         items: orderLines,
         subtotal: subtotal,
         delivery_fee: fee,
         total: total,
-        status: 'new'
+        status: 'new',
+        otp_verified: !!b.otp_verified
       };
 
-      const { error: oErr } = await sb.from('orders').insert(payload);
+      let { error: oErr } = await sb.from('orders').insert(payload);
+      if (oErr && oErr.message && oErr.message.includes('otp_verified')) {
+        delete payload.otp_verified;
+        const res2 = await sb.from('orders').insert(payload);
+        oErr = res2.error;
+      }
       if (oErr) {
         throw new Error('Could not submit order: ' + oErr.message);
       }
@@ -286,6 +297,7 @@
         delivery_fee: fee,
         total: total,
         status: 'new',
+        otp_verified: !!b.otp_verified,
         items: orderLines.map(({ name, option, price, qty }) => ({ name, option, price, qty }))
       };
     },
@@ -471,19 +483,29 @@
       const code = generateOrderCode();
       const now = new Date().toISOString();
 
+      const notesParts = [];
+      if (b.otp_verified) notesParts.push('[Phone Verified via OTP]');
+      if (b.notes) notesParts.push(String(b.notes).trim());
+      const notesValue = notesParts.length ? notesParts.join(' · ') : '';
+
       const newOrder = {
+        id: 'ord-' + Date.now().toString(36),
+        order_code: code,
         code,
+        customer_name: name,
         name,
         phone,
         college: b.college || '',
+        fulfilment: b.method,
         method: b.method,
         area: b.area || '',
         address: b.address || '',
-        notes: b.notes || '',
+        notes: notesValue,
         subtotal,
         delivery_fee: fee,
         total: subtotal + fee,
         status: 'new',
+        otp_verified: !!b.otp_verified,
         created_at: now,
         updated_at: now,
         items
@@ -492,6 +514,13 @@
       const orders = readDemoOrders();
       orders.unshift(newOrder);
       localStorage.setItem(DEMO_ORDERS_KEY, JSON.stringify(orders));
+
+      // Also ensure it is present in voltnest_orders so Owner Control Room sees it immediately in demo mode
+      try {
+        const adminOrders = JSON.parse(localStorage.getItem('voltnest_orders') || '[]');
+        adminOrders.unshift(newOrder);
+        localStorage.setItem('voltnest_orders', JSON.stringify(adminOrders));
+      } catch {}
 
       return newOrder;
     },
