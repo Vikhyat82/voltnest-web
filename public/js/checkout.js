@@ -19,7 +19,7 @@
         <div class="form-grid" style="margin-top:14px">
           <div class="field"><label for="name">Full name *</label><input class="input" id="name" autocomplete="name" maxlength="60" required value="${esc(saved.name || '')}"></div>
           <div class="field"><label for="phone">Mobile number *</label><input class="input" id="phone" type="tel" inputmode="numeric" autocomplete="tel" placeholder="10-digit number" maxlength="16" required value="${esc(saved.phone || '')}"></div>
-          <div class="field"><label for="email">Email address *</label><input class="input" id="email" type="email" inputmode="email" autocomplete="email" placeholder="e.g. rahul@example.com" maxlength="120" required value="${esc(saved.email || '')}"><small style="color:var(--muted);font-size:.78rem;margin-top:4px;display:block">OTP will be sent to this email to verify your order</small></div>
+          <div class="field"><label for="email">Email address *</label><input class="input" id="email" type="email" inputmode="email" autocomplete="email" placeholder="e.g. rahul@example.com" maxlength="120" required value="${esc(saved.email || '')}"><small style="color:var(--muted);font-size:.78rem;margin-top:4px;display:block">OTP will be sent here to verify your order (check your <b>Spam</b> folder if not in inbox)</small></div>
           <div class="field full"><label for="college">College / hostel (optional)</label><input class="input" id="college" list="colleges" maxlength="80" placeholder="e.g. Sharda University, Hostel B" value="${esc(saved.college || '')}"><datalist id="colleges">${COLLEGES.map((c) => `<option value="${esc(c)}">`).join('')}</datalist></div>
         </div>
         <h3 style="margin:26px 0 12px">Pickup or delivery?</h3>
@@ -168,16 +168,17 @@
         <div id="otp-sending-state" style="text-align:center;padding:18px 0">
           <div class="otp-spinner" aria-label="Sending OTP"></div>
           <p style="margin-top:12px;color:var(--muted);font-size:.9rem">Sending OTP to <b>${esc(maskEmail(customerEmail))}</b>…</p>
+          <p style="margin-top:6px;color:#f6d860;font-size:.8rem">📬 Note: Please check your <b>Spam</b> or <b>Promotions</b> folder if not in your Inbox.</p>
         </div>
 
         <!-- Main OTP form (hidden until sent) -->
         <div id="otp-main-content" class="hide">
-          <p class="otp-sub" style="margin-bottom:8px">A 6-digit code was sent to <b>${esc(maskEmail(customerEmail))}</b>
+          <p class="otp-sub" style="margin-bottom:10px">A 6-digit code was sent to <b>${esc(maskEmail(customerEmail))}</b>
             <button type="button" id="otp-edit-email-btn" style="color:var(--cyan);background:none;border:none;cursor:pointer;font-size:0.85rem;text-decoration:underline;margin-left:6px">Wrong email?</button>
           </p>
-          <div style="font-size:0.78rem;color:#e6c875;background:rgba(255,200,0,0.08);border:1px solid rgba(255,200,0,0.2);padding:6px 10px;border-radius:8px;margin-bottom:14px;display:flex;align-items:center;gap:6px;line-height:1.4">
-            <span>💡</span>
-            <span>Check your <b>Spam</b> or <b>Promotions</b> folder if you don't see it in your inbox!</span>
+          <div style="font-size:0.84rem;color:#f6d860;background:rgba(246,216,96,0.12);border:1px solid rgba(246,216,96,0.3);padding:9px 12px;border-radius:10px;margin-bottom:16px;display:flex;align-items:flex-start;gap:8px;line-height:1.45">
+            <span style="font-size:1.15rem;line-height:1">📬</span>
+            <span><b>Important:</b> If you don't see the email in your Inbox, please check your <b>Spam</b> or <b>Promotions</b> folder!</span>
           </div>
 
           <form id="otp-form" novalidate>
@@ -312,7 +313,7 @@
       digitInputs.forEach((inp) => { inp.value = ''; inp.classList.remove('error'); });
       try {
         await sendOtpEmail(customerEmail, body.name, activeOtp);
-        toast(`New OTP sent to ${maskEmail(customerEmail)}`);
+        toast(`New OTP sent! Please check your Inbox and Spam folder.`);
       } catch (e) {
         toast('Could not send email. Try WhatsApp below.', 'err');
       }
