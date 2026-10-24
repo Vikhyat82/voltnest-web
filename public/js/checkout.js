@@ -99,11 +99,17 @@
       await new Promise((resolve, reject) => {
         const s = document.createElement('script');
         s.src = 'https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js';
-        s.onload = resolve;
-        s.onerror = reject;
+        s.onload = () => {
+          // Small delay to let the SDK register on window
+          setTimeout(resolve, 300);
+        };
+        s.onerror = () => reject(new Error('Failed to load EmailJS SDK'));
         document.head.appendChild(s);
       });
-      window.emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
+      if (typeof window.emailjs === 'undefined') {
+        throw new Error('EmailJS SDK did not load');
+      }
+      window.emailjs.init(EMAILJS_PUBLIC_KEY);
     }
     return window.emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
       customer_name: toName,
