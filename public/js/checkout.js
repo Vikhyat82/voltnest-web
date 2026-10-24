@@ -113,7 +113,9 @@
     }
     return window.emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
       customer_name: toName,
+      to_name: toName,
       otp_code: otpCode,
+      message: 'Your VoltNest OTP is: ' + otpCode,
       to_email: toEmail,
       reply_to: toEmail
     });
@@ -292,15 +294,6 @@
       startTimer();
     });
 
-    // Quick-Fill
-    quickFillBtn.addEventListener('click', () => {
-      activeOtp.split('').forEach((ch, idx) => {
-        if (digitInputs[idx]) digitInputs[idx].value = ch;
-      });
-      otpErr.textContent = '';
-      digitInputs.forEach((inp) => inp.classList.remove('error'));
-      otpSubmitBtn.focus();
-    });
 
     // Digits input navigation and paste support
     digitInputs.forEach((input, idx) => {
