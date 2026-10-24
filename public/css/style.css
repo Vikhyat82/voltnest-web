@@ -393,13 +393,7 @@ select.input option{background:var(--card);color:var(--ink)}
 .otp-badge{display:inline-flex;align-items:center;gap:6px;font-family:var(--f-mono);font-size:.72rem;color:var(--lime);background:rgba(182,255,59,.12);border:1px solid rgba(182,255,59,.25);padding:4px 10px;border-radius:99px;text-transform:uppercase;letter-spacing:.08em;font-weight:600}
 .otp-card h2{font-size:1.45rem;margin:12px 0 6px}
 .otp-sub{font-size:.9rem;color:var(--mute);margin-bottom:18px;line-height:1.5}
-.otp-sms-banner{background:rgba(10,25,19,.95);border:1px solid var(--lime);border-radius:14px;padding:12px 14px;margin-bottom:20px;box-shadow:0 4px 16px rgba(182,255,59,.12)}
-.otp-sms-head{display:flex;justify-content:space-between;align-items:center;font-size:.72rem;font-family:var(--f-mono);text-transform:uppercase;color:var(--mute);margin-bottom:6px}
-.otp-sms-badge{color:var(--lime);font-weight:700;display:inline-flex;align-items:center;gap:4px}
-.otp-sms-body{font-size:.85rem;color:var(--ink);line-height:1.4;margin-bottom:10px}
-.otp-sms-code{font-family:var(--f-mono);font-weight:700;font-size:1.15rem;color:var(--lime);letter-spacing:.12em;background:rgba(182,255,59,.14);padding:2px 8px;border-radius:6px;display:inline-block;margin:0 4px}
-.otp-quick-fill-btn{width:100%;background:rgba(182,255,59,.14);color:var(--lime);border:1px dashed var(--lime);padding:7px 12px;border-radius:8px;font-family:var(--f-mono);font-size:.8rem;font-weight:600;display:flex;align-items:center;justify-content:center;gap:6px;transition:.2s;cursor:pointer}
-.otp-quick-fill-btn:hover{background:var(--lime);color:#06100c}
+
 .otp-inputs-row{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin-bottom:14px}
 .otp-digit{width:100%;height:52px;text-align:center;font-family:var(--f-mono);font-size:1.45rem;font-weight:700;background:var(--bg);border:2px solid var(--line2);border-radius:12px;color:var(--lime);transition:border-color .2s,box-shadow .2s;caret-color:var(--lime)}
 .otp-digit:focus{outline:none;border-color:var(--lime);box-shadow:0 0 0 3px rgba(182,255,59,.25)}

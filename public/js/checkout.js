@@ -94,31 +94,41 @@
   const EMAILJS_TEMPLATE_ID = 'template_z9kp85a';  // e.g. template_xxxxxxx
 
   async function sendOtpEmail(toEmail, toName, otpCode) {
-    // Load EmailJS SDK lazily
-    if (!window.emailjs) {
-      await new Promise((resolve, reject) => {
-        const s = document.createElement('script');
-        s.src = 'https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js';
-        s.onload = () => {
-          // Small delay to let the SDK register on window
-          setTimeout(resolve, 300);
-        };
-        s.onerror = () => reject(new Error('Failed to load EmailJS SDK'));
-        document.head.appendChild(s);
-      });
-      if (typeof window.emailjs === 'undefined') {
-        throw new Error('EmailJS SDK did not load');
-      }
-      window.emailjs.init(EMAILJS_PUBLIC_KEY);
-    }
-    return window.emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
-      customer_name: toName,
-      to_name: toName,
-      otp_code: otpCode,
-      message: 'Your VoltNest OTP is: ' + otpCode,
-      to_email: toEmail,
-      reply_to: toEmail
+    const res = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        service_id: EMAILJS_SERVICE_ID,
+        template_id: EMAILJS_TEMPLATE_ID,
+        user_id: EMAILJS_PUBLIC_KEY,
+        template_params: {
+          to_email: toEmail,
+          email: toEmail,
+          user_email: toEmail,
+          recipient_email: toEmail,
+          to: toEmail,
+          reply_to: toEmail,
+          customer_name: toName,
+          to_name: toName,
+          user_name: toName,
+          name: toName,
+          from_name: 'VoltNest',
+          otp_code: otpCode,
+          otp: otpCode,
+          code: otpCode,
+          message: `Your VoltNest verification code is: ${otpCode}. It expires in 2 minutes.`
+        }
+      })
     });
+
+    if (!res.ok) {
+      const errText = await res.text().catch(() => '');
+      console.error('EmailJS send error:', res.status, errText);
+      throw new Error(errText || `HTTP ${res.status}`);
+    }
+    return true;
   }
 
   /* ---------------- OTP Verification Modal Flow ---------------- */
@@ -218,16 +228,30 @@
         setTimeout(() => { if (digitInputs[0]) digitInputs[0].focus(); }, 100);
         startTimer();
       } catch (err) {
-        // EmailJS not configured yet — show fallback message
-        console.warn('EmailJS not configured:', err);
+        console.warn('EmailJS delivery error:', err);
         sendingState.innerHTML = `
           <div style="text-align:center;padding:10px 0">
-            <p style="color:var(--err, #ff6b6b);font-size:.9rem;margin-bottom:10px">⚠️ Email service not set up yet.</p>
-            <p style="color:var(--muted);font-size:.85rem">Please <a href="#" id="otp-fallback-wa" style="color:var(--cyan)">use WhatsApp</a> or ask the owner to configure EmailJS.</p>
+            <p style="color:var(--err, #ff6b6b);font-size:.9rem;margin-bottom:8px">⚠️ Could not send email (${esc(err.message || 'Error')})</p>
+            <p style="color:var(--muted);font-size:.85rem;margin-bottom:14px">Please check your email address or receive your OTP via WhatsApp:</p>
+            <a href="https://wa.me/91${cleanPhone}?text=${encodeURIComponent('VoltNest OTP: ' + activeOtp)}" target="_blank" rel="noopener" class="otp-wa-btn" style="margin-bottom:12px">
+              💬 Send OTP to WhatsApp
+            </a>
+            <div>
+              <button type="button" id="otp-manual-reveal-btn" style="color:var(--cyan);background:none;border:none;cursor:pointer;font-size:0.85rem;text-decoration:underline">
+                I have the OTP, let me enter it
+              </button>
+            </div>
           </div>
         `;
-        const waFallback = sendingState.querySelector('#otp-fallback-wa');
-        if (waFallback) waFallback.href = `https://wa.me/91${cleanPhone}?text=${encodeURIComponent('Please send me my VoltNest OTP')}`;
+        const revealBtn = sendingState.querySelector('#otp-manual-reveal-btn');
+        if (revealBtn) {
+          revealBtn.addEventListener('click', () => {
+            sendingState.classList.add('hide');
+            mainContent.classList.remove('hide');
+            if (digitInputs[0]) digitInputs[0].focus();
+            startTimer();
+          });
+        }
       }
     }
     doSendOtp();
