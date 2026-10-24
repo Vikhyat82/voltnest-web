@@ -172,9 +172,13 @@
 
         <!-- Main OTP form (hidden until sent) -->
         <div id="otp-main-content" class="hide">
-          <p class="otp-sub">A 6-digit code was sent to <b>${esc(maskEmail(customerEmail))}</b>
+          <p class="otp-sub" style="margin-bottom:8px">A 6-digit code was sent to <b>${esc(maskEmail(customerEmail))}</b>
             <button type="button" id="otp-edit-email-btn" style="color:var(--cyan);background:none;border:none;cursor:pointer;font-size:0.85rem;text-decoration:underline;margin-left:6px">Wrong email?</button>
           </p>
+          <div style="font-size:0.78rem;color:#e6c875;background:rgba(255,200,0,0.08);border:1px solid rgba(255,200,0,0.2);padding:6px 10px;border-radius:8px;margin-bottom:14px;display:flex;align-items:center;gap:6px;line-height:1.4">
+            <span>💡</span>
+            <span>Check your <b>Spam</b> or <b>Promotions</b> folder if you don't see it in your inbox!</span>
+          </div>
 
           <form id="otp-form" novalidate>
             <div class="otp-inputs-row" id="otp-box-row">
