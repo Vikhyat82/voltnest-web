@@ -19,6 +19,7 @@
         <div class="form-grid" style="margin-top:14px">
           <div class="field"><label for="name">Full name *</label><input class="input" id="name" autocomplete="name" maxlength="60" required value="${esc(saved.name || '')}"></div>
           <div class="field"><label for="phone">Mobile number *</label><input class="input" id="phone" type="tel" inputmode="numeric" autocomplete="tel" placeholder="10-digit number" maxlength="16" required value="${esc(saved.phone || '')}"></div>
+          <div class="field"><label for="email">Email address *</label><input class="input" id="email" type="email" inputmode="email" autocomplete="email" placeholder="e.g. rahul@example.com" maxlength="120" required value="${esc(saved.email || '')}"><small style="color:var(--muted);font-size:.78rem;margin-top:4px;display:block">OTP will be sent to this email to verify your order</small></div>
           <div class="field full"><label for="college">College / hostel (optional)</label><input class="input" id="college" list="colleges" maxlength="80" placeholder="e.g. Sharda University, Hostel B" value="${esc(saved.college || '')}"><datalist id="colleges">${COLLEGES.map((c) => `<option value="${esc(c)}">`).join('')}</datalist></div>
         </div>
         <h3 style="margin:26px 0 12px">Pickup or delivery?</h3>
@@ -59,30 +60,61 @@
     root.querySelectorAll('input[name=method]').forEach((r) => r.addEventListener('change', refresh)); refresh();
 
     const btn = $('#submit');
-    btn.textContent = 'Verify phone & place order';
+    btn.textContent = 'Verify & place order';
 
     $('#of').addEventListener('submit', (e) => {
       e.preventDefault();
       const err = $('#err'); err.textContent = '';
-      const body = { name: $('#name').value.trim(), phone: $('#phone').value.trim(), college: $('#college').value.trim(), method: method(),
+      const body = {
+        name: $('#name').value.trim(), phone: $('#phone').value.trim(), email: $('#email').value.trim(),
+        college: $('#college').value.trim(), method: method(),
         area: $('#area').value, address: $('#address').value.trim(), notes: $('#notes').value.trim(), website: $('#website').value,
-        items: lines.map((l) => ({ id: l.p.id, qty: l.qty, option: l.opt })) };
+        items: lines.map((l) => ({ id: l.p.id, qty: l.qty, option: l.opt }))
+      };
       const fail = (m, id) => { err.textContent = m; if (id) $(id).focus(); err.scrollIntoView({ block: 'center', behavior: 'smooth' }); };
       if (body.name.length < 2) return fail('Please enter your name', '#name');
       const d = body.phone.replace(/\D/g, '').replace(/^91(?=\d{10}$)/, '').replace(/^0(?=\d{10}$)/, '');
       if (!/^[6-9]\d{9}$/.test(d)) return fail('Enter a valid 10-digit mobile number', '#phone');
+      const emailVal = body.email;
+      if (!emailVal || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailVal)) return fail('Enter a valid email address (OTP will be sent here)', '#email');
       if (body.method === 'delivery') {
         if (!body.area) return fail('Choose your delivery area', '#area');
         if (body.address.length < 5) return fail('Enter your delivery address', '#address');
       }
 
       // Customer details are valid -> Trigger OTP Verification before submitting order
-      openOtpModal(body, d, cfg, lines);
+      openOtpModal(body, d, emailVal, cfg, lines);
+    });
+  }
+
+  /* ---------------- EmailJS OTP Delivery ---------------- */
+  // EMAILJS CONFIG — replace these with your actual EmailJS keys
+  const EMAILJS_PUBLIC_KEY = 'IUnn7dnGKxh9If-w7';   // Account → Public Key
+  const EMAILJS_SERVICE_ID = 'service_uqytsrh';   // e.g. service_xxxxxxx
+  const EMAILJS_TEMPLATE_ID = 'template_z9kp85a';  // e.g. template_xxxxxxx
+
+  async function sendOtpEmail(toEmail, toName, otpCode) {
+    // Load EmailJS SDK lazily
+    if (!window.emailjs) {
+      await new Promise((resolve, reject) => {
+        const s = document.createElement('script');
+        s.src = 'https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js';
+        s.onload = resolve;
+        s.onerror = reject;
+        document.head.appendChild(s);
+      });
+      window.emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
+    }
+    return window.emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+      customer_name: toName,
+      otp_code: otpCode,
+      to_email: toEmail,
+      reply_to: toEmail
     });
   }
 
   /* ---------------- OTP Verification Modal Flow ---------------- */
-  function openOtpModal(body, cleanPhone, cfg, lines) {
+  function openOtpModal(body, cleanPhone, customerEmail, cfg, lines) {
     const existing = document.getElementById('checkout-otp-modal');
     if (existing) existing.remove();
 
@@ -91,8 +123,15 @@
     }
 
     let activeOtp = genOtp();
-    let secondsLeft = 45;
+    let secondsLeft = 120;
     let timer = null;
+    let otpSent = false;
+
+    // Masked email for display: r***@gmail.com
+    function maskEmail(email) {
+      const [u, d] = email.split('@');
+      return u.slice(0, 1) + '***@' + d;
+    }
 
     const modal = document.createElement('div');
     modal.id = 'checkout-otp-modal';
@@ -104,47 +143,48 @@
     modal.innerHTML = `
       <div class="otp-card">
         <button type="button" class="otp-close" id="otp-close-btn" aria-label="Close verification">&times;</button>
-        <span class="otp-badge">🔐 Security Check</span>
-        <h2 id="otp-title">Verify Mobile Number</h2>
-        <p class="otp-sub">Enter the 6-digit verification code sent to <b>+91 ${esc(cleanPhone)}</b> <button type="button" id="otp-edit-phone-btn" style="color:var(--cyan);background:none;border:none;cursor:pointer;font-size:0.85rem;text-decoration:underline;margin-left:4px">Change</button></p>
+        <span class="otp-badge">🔐 Verify Your Order</span>
+        <h2 id="otp-title">Enter Verification Code</h2>
 
-        <!-- Simulated SMS Notification Demonstration Banner -->
-        <div class="otp-sms-banner">
-          <div class="otp-sms-head">
-            <span class="otp-sms-badge"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:-2px"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg> SMS Code Alert</span>
-            <span>Just now</span>
-          </div>
-          <div class="otp-sms-body">
-            VoltNest verification code: <b class="otp-sms-code" id="otp-disp-code">${activeOtp}</b>. Valid for 5 minutes.
-          </div>
-          <button type="button" class="otp-quick-fill-btn" id="otp-quick-fill">
-            ⚡ Tap to auto-fill code (${activeOtp})
-          </button>
+        <!-- Sending state -->
+        <div id="otp-sending-state" style="text-align:center;padding:18px 0">
+          <div class="otp-spinner" aria-label="Sending OTP"></div>
+          <p style="margin-top:12px;color:var(--muted);font-size:.9rem">Sending OTP to <b>${esc(maskEmail(customerEmail))}</b>…</p>
         </div>
 
-        <form id="otp-form" novalidate>
-          <div class="otp-inputs-row" id="otp-box-row">
-            <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" class="otp-digit" data-idx="0" autocomplete="one-time-code" autofocus>
-            <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" class="otp-digit" data-idx="1">
-            <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" class="otp-digit" data-idx="2">
-            <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" class="otp-digit" data-idx="3">
-            <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" class="otp-digit" data-idx="4">
-            <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" class="otp-digit" data-idx="5">
+        <!-- Main OTP form (hidden until sent) -->
+        <div id="otp-main-content" class="hide">
+          <p class="otp-sub">A 6-digit code was sent to <b>${esc(maskEmail(customerEmail))}</b>
+            <button type="button" id="otp-edit-email-btn" style="color:var(--cyan);background:none;border:none;cursor:pointer;font-size:0.85rem;text-decoration:underline;margin-left:6px">Wrong email?</button>
+          </p>
+
+          <form id="otp-form" novalidate>
+            <div class="otp-inputs-row" id="otp-box-row">
+              <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" class="otp-digit" data-idx="0" autocomplete="one-time-code" autofocus>
+              <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" class="otp-digit" data-idx="1">
+              <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" class="otp-digit" data-idx="2">
+              <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" class="otp-digit" data-idx="3">
+              <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" class="otp-digit" data-idx="4">
+              <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" class="otp-digit" data-idx="5">
+            </div>
+
+            <div id="otp-err" class="err-msg" style="margin-bottom:12px;text-align:center;font-size:0.85rem"></div>
+
+            <div class="otp-resend-row">
+              <span id="otp-timer-box">Code expires in <b id="otp-countdown" class="mono" style="color:var(--lime)">${secondsLeft}s</b></span>
+              <button type="button" id="otp-resend-btn" class="otp-resend-btn hide">Resend code</button>
+            </div>
+
+            <button type="submit" class="btn lg block" id="otp-submit-btn" style="width:100%">Verify &amp; Confirm Order</button>
+          </form>
+
+          <div style="text-align:center;margin-top:14px">
+            <p style="color:var(--muted);font-size:.8rem;margin-bottom:8px">Didn't get the email? Check spam, or use WhatsApp:</p>
+            <a class="otp-wa-btn" id="otp-wa-link" href="https://wa.me/91${cleanPhone}?text=${encodeURIComponent('VoltNest OTP: ' + activeOtp)}" target="_blank" rel="noopener">
+              💬 WhatsApp me the code instead
+            </a>
           </div>
-
-          <div id="otp-err" class="err-msg" style="margin-bottom:12px;text-align:center;font-size:0.85rem"></div>
-
-          <div class="otp-resend-row">
-            <span id="otp-timer-box">Resend code in <b id="otp-countdown" class="mono" style="color:var(--lime)">${secondsLeft}s</b></span>
-            <button type="button" id="otp-resend-btn" class="otp-resend-btn hide">Didn't receive? Resend OTP</button>
-          </div>
-
-          <button type="submit" class="btn lg block" id="otp-submit-btn" style="width:100%">Verify &amp; Confirm Order</button>
-
-          <a class="otp-wa-btn" id="otp-wa-link" href="https://wa.me/91${cleanPhone}?text=${encodeURIComponent(`VoltNest verification OTP: ${activeOtp}`)}" target="_blank" rel="noopener">
-            💬 Send code to my WhatsApp
-          </a>
-        </form>
+        </div>
       </div>
     `;
 
@@ -156,17 +196,38 @@
     const timerBox = modal.querySelector('#otp-timer-box');
     const countdownEl = modal.querySelector('#otp-countdown');
     const resendBtn = modal.querySelector('#otp-resend-btn');
-    const quickFillBtn = modal.querySelector('#otp-quick-fill');
-    const dispCodeEl = modal.querySelector('#otp-disp-code');
     const waLink = modal.querySelector('#otp-wa-link');
+    const sendingState = modal.querySelector('#otp-sending-state');
+    const mainContent = modal.querySelector('#otp-main-content');
 
-    // Auto-focus first digit
-    setTimeout(() => { if (digitInputs[0]) digitInputs[0].focus(); }, 100);
+    // Send OTP email immediately when modal opens
+    async function doSendOtp() {
+      try {
+        await sendOtpEmail(customerEmail, body.name, activeOtp);
+        otpSent = true;
+        sendingState.classList.add('hide');
+        mainContent.classList.remove('hide');
+        setTimeout(() => { if (digitInputs[0]) digitInputs[0].focus(); }, 100);
+        startTimer();
+      } catch (err) {
+        // EmailJS not configured yet — show fallback message
+        console.warn('EmailJS not configured:', err);
+        sendingState.innerHTML = `
+          <div style="text-align:center;padding:10px 0">
+            <p style="color:var(--err, #ff6b6b);font-size:.9rem;margin-bottom:10px">⚠️ Email service not set up yet.</p>
+            <p style="color:var(--muted);font-size:.85rem">Please <a href="#" id="otp-fallback-wa" style="color:var(--cyan)">use WhatsApp</a> or ask the owner to configure EmailJS.</p>
+          </div>
+        `;
+        const waFallback = sendingState.querySelector('#otp-fallback-wa');
+        if (waFallback) waFallback.href = `https://wa.me/91${cleanPhone}?text=${encodeURIComponent('Please send me my VoltNest OTP')}`;
+      }
+    }
+    doSendOtp();
 
     // Countdown Timer logic
     function startTimer() {
       if (timer) clearInterval(timer);
-      secondsLeft = 45;
+      secondsLeft = 120;
       timerBox.classList.remove('hide');
       resendBtn.classList.add('hide');
       countdownEl.textContent = `${secondsLeft}s`;
@@ -183,7 +244,6 @@
         }
       }, 1000);
     }
-    startTimer();
 
     function closeModal() {
       if (timer) clearInterval(timer);
@@ -191,39 +251,38 @@
     }
 
     modal.querySelector('#otp-close-btn').addEventListener('click', closeModal);
-    modal.querySelector('#otp-edit-phone-btn').addEventListener('click', () => {
+    modal.querySelector('#otp-edit-email-btn').addEventListener('click', () => {
       closeModal();
-      const phoneInput = document.getElementById('phone');
-      if (phoneInput) {
-        phoneInput.focus();
-        phoneInput.select();
-      }
+      const emailInput = document.getElementById('email');
+      if (emailInput) { emailInput.focus(); emailInput.select(); }
     });
 
     // Close on backdrop click
-    modal.addEventListener('click', (e) => {
-      if (e.target === modal) closeModal();
-    });
+    modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
 
     // Close on Esc key
     const onKeydown = (e) => {
-      if (e.key === 'Escape') {
-        closeModal();
-        window.removeEventListener('keydown', onKeydown);
-      }
+      if (e.key === 'Escape') { closeModal(); window.removeEventListener('keydown', onKeydown); }
     };
     window.addEventListener('keydown', onKeydown);
 
     // Resend OTP
-    resendBtn.addEventListener('click', () => {
+    resendBtn.addEventListener('click', async () => {
       activeOtp = genOtp();
-      dispCodeEl.textContent = activeOtp;
-      quickFillBtn.innerHTML = `⚡ Tap to auto-fill code (${activeOtp})`;
-      waLink.href = `https://wa.me/91${cleanPhone}?text=${encodeURIComponent(`VoltNest verification OTP: ${activeOtp}`)}`;
+      waLink.href = `https://wa.me/91${cleanPhone}?text=${encodeURIComponent('VoltNest OTP: ' + activeOtp)}`;
       otpErr.textContent = '';
+      resendBtn.disabled = true;
+      resendBtn.textContent = 'Sending…';
       digitInputs.forEach((inp) => { inp.value = ''; inp.classList.remove('error'); });
+      try {
+        await sendOtpEmail(customerEmail, body.name, activeOtp);
+        toast(`New OTP sent to ${maskEmail(customerEmail)}`);
+      } catch (e) {
+        toast('Could not send email. Try WhatsApp below.', 'err');
+      }
+      resendBtn.disabled = false;
+      resendBtn.textContent = 'Resend code';
       digitInputs[0].focus();
-      toast(`New OTP code sent to +91 ${cleanPhone}`);
       startTimer();
     });
 
@@ -313,7 +372,7 @@
 
         const o = await Backend.createOrder(payload);
         closeModal();
-        store.set('vn_customer', { name: body.name, phone: cleanPhone, college: body.college });
+        store.set('vn_customer', { name: body.name, phone: cleanPhone, email: customerEmail, college: body.college });
         store.set('vn_last', { code: o.code, phone: cleanPhone });
         Cart.clear();
         toast('Phone verified! Order placed successfully.');

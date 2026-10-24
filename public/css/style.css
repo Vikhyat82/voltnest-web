@@ -407,11 +407,15 @@ select.input option{background:var(--card);color:var(--ink)}
 .otp-resend-row{display:flex;justify-content:space-between;align-items:center;font-size:.82rem;color:var(--mute);margin:12px 0 18px;min-height:22px}
 .otp-resend-btn{color:var(--cyan);font-weight:600;text-decoration:underline;text-underline-offset:3px;cursor:pointer;background:none;border:none;padding:0;font-size:.82rem}
 .otp-resend-btn:hover{color:var(--lime)}
-.otp-wa-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;width:100%;font-size:.82rem;color:#38e680;margin-top:12px;background:rgba(37,211,102,.08);border:1px solid rgba(37,211,102,.25);padding:9px;border-radius:10px;transition:.2s}
+.otp-wa-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;width:100%;font-size:.82rem;color:#38e680;margin-top:4px;background:rgba(37,211,102,.08);border:1px solid rgba(37,211,102,.25);padding:9px;border-radius:10px;transition:.2s}
 .otp-wa-btn:hover{background:rgba(37,211,102,.16);border-color:#38e680}
+/* Spinner for sending state */
+.otp-spinner{width:44px;height:44px;border:3px solid rgba(182,255,59,.18);border-top-color:var(--lime);border-radius:50%;animation:otpSpin .75s linear infinite;margin:0 auto}
+@keyframes otpSpin{to{transform:rotate(360deg)}}
 @keyframes otpFadeIn{from{opacity:0}to{opacity:1}}
 @keyframes otpPopIn{from{opacity:0;transform:scale(.92) translateY(12px)}to{opacity:1;transform:none}}
 @keyframes otpShake{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}
+
 
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
